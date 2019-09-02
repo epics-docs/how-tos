@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'EPICS Documentation'
+project = 'EPICS How-Tos'
 copyright = '2019, EPICS'
 author = 'EPICS'
 

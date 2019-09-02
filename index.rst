@@ -1,9 +1,9 @@
-.. EPICS Documentation documentation master file, created by
+.. EPICS How-To documentation master file, created by
    sphinx-quickstart on Wed Jul 24 13:27:58 2019.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to the EPICS documentation!
+Welcome to the EPICS How-To Pages!
 ===================================
 
 .. toctree::
