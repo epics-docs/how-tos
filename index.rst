@@ -25,7 +25,7 @@ Welcome to the EPICS How-To Pages!
    :maxdepth: 1
    :caption: Building EPICS
 
-   building-epics/how-to-port-epics-to-a-new-os-crchitecture
+   building-epics/how-to-port-epics-to-a-new-os-architecture
 
 
 .. toctree::
