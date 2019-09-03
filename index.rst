@@ -7,6 +7,13 @@ Welcome to the EPICS How-To Pages!
 ===================================
 
 .. toctree::
+   :hidden:
+
+   EPICS Website <https://epics-controls.org>
+   EPICS Documentation Home <https://docs.epics-controls.org>
+
+
+.. toctree::
    :maxdepth: 1
    :caption: Getting started
 

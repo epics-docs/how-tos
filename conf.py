@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'EPICS How-Tos'
-copyright = '2019, EPICS'
+copyright = '2019, EPICS Controls.'
 author = 'EPICS'
 
 
