@@ -10,7 +10,7 @@ Welcome to the EPICS How-To Pages!
    :hidden:
 
    EPICS Website <https://epics-controls.org>
-   EPICS Documentation Home <https://docs.epics-controls.org>
+   EPICS Documents <https://epics-controls.org/resources-and-support/documents/>
 
 
 .. toctree::
@@ -54,11 +54,3 @@ Welcome to the EPICS How-To Pages!
    :caption: Infrastructure and Other
 
    infrastructure-and-other/how-to-find-which-ioc-provides-a-pv
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
