@@ -27,7 +27,7 @@ Update MSYS2 with following command
 
     $ pacman -Syu
   
-After finished Close bash (do not exit). Run the same command again to finish the installation.
+After finished Close the bash (do not exit). Open bash again and run the same command again to finish the updates.
 
 ``tar`` is also needed to unpack the EPICS base
 
