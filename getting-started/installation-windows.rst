@@ -20,7 +20,7 @@ Install Tools
 -------------------
 MSYS2 provides a bash shell, Autotools, revision control systems and the like for building native Windows applications using MinGW-w64 toolchains. Tool can be installed from official website <https://www.msys2.org>. Download and run the installer - "x86_64" for 64-bit, "i686" for 32-bit Windows. Currently we go for 64 bit system. Installation procedure is well explained on website.
 
-Once instalaltion in complete, Open "MSYS2 MSYS" or "MSYS MinGW 64-bit". It shall provide you bash which resembles linux command shell. 
+Once installation in complete, Open "MSYS2 MSYS" or "MSYS MinGW 64-bit". It shall provide you bash which resembles linux command shell. 
 Update MSYS2 with following command
 
 ::
