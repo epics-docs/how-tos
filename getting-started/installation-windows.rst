@@ -98,9 +98,6 @@ There should be lots of warnings, but no error.
 
 Test EPICS
 ----------
-Now log out and log in again, so that your new path is set correctly.
-Alternatively, you can execute the three lines above beginning with export 
-directly from the terminal.
 
 Run ``softIoc`` and, if everything is ok, you should see an EPICS prompt.
 
