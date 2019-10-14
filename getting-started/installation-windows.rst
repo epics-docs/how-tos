@@ -1,20 +1,14 @@
 ﻿Installation on Windows
 =======================================
 
-What is EPICS about?
+Introduction
 -----------------------------------
-We assume that you know more or less what EPICS is. Here we want to start 
-from scratch and get to the point where we have a working server, then you 
-get on other how-tos to take you further. 
+We assume that you know more or less what EPICS is. You can get basic idea from https://epics-controls.org/about-epics/. Here we want to start from scratch on windows system and get to the point where we have a working server, then you get on other how-tos to take you further. 
 
 Prepare your system
 -------------------
 
-You need ``make``, ``c++`` and ``libreadline`` to compile from source. 
-On Windows these dependencies can be installed by using msys2 tool. 
-This tool is available windows 7 onwards only. Currently this Installation is 
-tested only on windows 8.1. It should work for all the version of windows.
-In case we test it for other version, We will update the document.
+You Need 'C++ Libraries', 'GNU make'  and 'GCC' to compile from source. On Windows these dependencies can be installed by using msys2 tool. This tool is available windows 7 onwards only. Currently this procedure is verified on windows 8.1 (64 bit). It should work for all the version of windows. In case we test it for other versions, We will update the document.
 
 Install Tools
 -------------------
