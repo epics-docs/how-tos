@@ -188,15 +188,11 @@ Create a demo/test ioc to test ca and pva
     ## EPICS R7.0.1.2-DEV 
     ## EPICS Base built Mar 8 2018 
     ############################################################################ 
-    cas warning: Configured TCP port was unavailable. 
-    cas warning: Using dynamically assigned TCP port 52907, 
-    cas warning: but now two or more servers share the same UDP port. 
-    cas warning: Depending on your IP kernel this server may not be 
-    cas warning: reachable with UDP unicast (a host's IP in EPICS_CA_ADDR_LIST) 
     iocRun: All initialization complete 
     2018-03-09T13:07:02.475 Using dynamically assigned TCP port 52908. 
     ## Start any sequence programs 
-    #seq sncExample, "user=maradona" epics> dbl
+    #seq sncExample, "user=maradona"
+    epics> dbl
     maradona:circle:tick
     maradona:compressExample
     maradona:line:b
@@ -224,7 +220,7 @@ Add the asyn package
     git clone https://github.com/epics-modules/asyn.git
     cd asyn
 
-Edit ``$HOME/EPICS/spport/asyn/configure/RELEASE`` and set
+Edit ``$HOME/EPICS/support/asyn/configure/RELEASE`` and set
 ``EPICS_BASE`` like
 
 ::
