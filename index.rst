@@ -19,6 +19,7 @@ Welcome to the EPICS How-To Pages!
 
    getting-started/installation
    getting-started/creating-ioc
+   getting-started/installation-windows
 
 
 .. toctree::
