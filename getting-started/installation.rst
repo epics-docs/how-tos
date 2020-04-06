@@ -16,7 +16,8 @@ Prepare your system
 
 You need ``make``, ``c++`` and ``libreadline`` to compile from source. On macOS these
 dependencies can be installed by using e.g. ``homebrew``. On Linux you
-can use ``apt-get install``.
+can use ``apt-get install``.  The :doc:`linux-packages` document lists all 
+of the packages required to build EPICS base, the sequencer, synApps modules, and areaDetector.
 
 Install EPICS
 -------------
