@@ -18,6 +18,7 @@ Welcome to the EPICS How-To Pages!
    :caption: Getting started
 
    getting-started/installation
+   getting-started/linux-packages.rst
    getting-started/creating-ioc
    getting-started/installation-windows
 
