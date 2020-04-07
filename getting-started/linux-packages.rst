@@ -107,3 +107,25 @@ Packages required to build areaDetector/ADVimba
 
  dnf install glibmm24-devel
 
+
+Packages required to build EDM
+------------------------------
+
+::
+
+  dnf install giflib 
+  dnf install giflib-devel
+  dnf install zlib-devel
+  dnf install libpng-devel
+  dnf install motif-devel
+  dnf install libXtst-devel
+
+Packages required to build MEDM
+------------------------------
+
+::
+
+  dnf install libXt-devel
+  dnf install motif-devel
+
+
