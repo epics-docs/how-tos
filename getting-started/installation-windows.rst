@@ -28,6 +28,7 @@ After finished Close the bash (do not exit). Open bash again and run the same co
 ::
 
     $ pacman -S tar
+
 Install ``perl``
 
 ::
