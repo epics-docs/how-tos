@@ -127,8 +127,8 @@ wanted to see more digits, you could run
     camonitor -g8 temperature:water
 
 For further details on the Channel Access protocol, including documentation
-on the ``caput``, ``caget``, ``camonitor``...
-command line tools, please refer to the `Channel Access Reference Manual <https://epics.anl.gov/base/R3-14/8-docs/CAref.html>`_.
+on the ``caput``, ``caget``, ``camonitor``... command line tools, please refer to the
+`Channel Access Reference Manual <https://epics.anl.gov/base/R3-15/7-docs/CAref.html#CommandTools>`_.
 
 In real life, however, it is unlikely that the 8 digits returned by your
 thermometer (in this example) are all significant. We should thus limit the
@@ -152,8 +152,9 @@ MDEL stands for Monitor Deadband. If you now run
 with the new ``test.db`` file, you will see that
 ``camonitor`` reacts only to changes that are larger than 0.01.
 
-This was just a simple example. Please refer to the `Record Reference Manual <https://epics.anl.gov/EpicsDocumentation/AppDevManuals/RecordRef/Recordref-1.html>`_ for further
-information.
+This was just a simple example. Please refer to a recent
+`Record Reference Manual <https://epics.anl.gov/base/R3-15/7-docs/RecordReference.html>`_
+for further information.
 
 Create a demo/test ioc to test ca and pva
 -----------------------------------------
