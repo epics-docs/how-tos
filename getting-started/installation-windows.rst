@@ -97,7 +97,7 @@ Install EPICS
 
 There should be lots of warnings, but no error. 
 
-Check EPICS Instalaltion
+Check EPICS Installation
 ------------------------
 
 Run ``softIoc`` and, if everything is ok, you should see an EPICS prompt.
