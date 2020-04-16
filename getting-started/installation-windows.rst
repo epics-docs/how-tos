@@ -8,13 +8,13 @@ We assume that you know more or less what EPICS is. You can get basic idea from 
 Prepare your system
 -------------------
 
-You Need 'C++ Libraries', 'GNU make'  and 'GCC' to compile from source. On Windows these dependencies can be installed by using msys2 tool. This tool is available windows 7 onwards only. Currently this procedure is verified on windows 8.1 (64 bit). It should work for all the version of windows. In case we test it for other versions, We will update the document.
+You Need 'C++ Libraries', 'GNU make'  and 'GCC' to compile from source. On Windows these dependencies can be installed by using msys2 tool. This tool is available windows 7 onwards only. Currently this procedure is verified on windows 8.1 (64 bit) and Windows 10 (64 bit). But, It should work for all the version of windows. In case we test it for other versions, We will update the document.
 
 Install Tools
 -------------------
 MSYS2 provides a bash shell, Autotools, revision control systems and the like for building native Windows applications using MinGW-w64 toolchains. Tool can be installed from official website <https://www.msys2.org>. Download and run the installer - "x86_64" for 64-bit, "i686" for 32-bit Windows. Currently we go for 64 bit system. Installation procedure is well explained on website.
 
-Once installation in complete, Open "MSYS2 MSYS" or "MSYS MinGW 64-bit". It shall provide you bash which resembles linux command shell. 
+Once installation in complete, you have three options available. Launch "MSYS MinGW 64-bit" option (MSYS2 and 32-bit option fails to compile EPICS). It shall provide you bash which resembles linux command shell. 
 Update MSYS2 with following command
 
 ::
@@ -41,7 +41,7 @@ Install ``make``
 
     $ pacman -S make
 
-Install ``gcc`` for 64-bit environment
+Install ``mingw-gcc`` for 64-bit environment
 
 
 ::
@@ -66,15 +66,22 @@ Install ``gcc`` for 64-bit environment
 
     :: Proceed with installation? [Y/n] y
     
-    
+Install ``gcc`` 
+
+
+::
+
+    $ pacman -S gcc
+        
 Check everything is installed properly,
 
 ::
 
-    $ pacman -Q make perl mingw-w64-x86_64-gcc
+    $ pacman -Q make perl mingw-w64-x86_64-gcc gcc
     make 4.2.1-1
     perl 5.30.0-1
     mingw-w64-x86_64-gcc 9.2.0-2
+    gcc 9.1.0-2
     
 Install EPICS
 -------------
@@ -90,18 +97,31 @@ Install EPICS
 
 There should be lots of warnings, but no error. 
 
-Test EPICS
-----------
+Check EPICS Instalaltion
+------------------------
 
 Run ``softIoc`` and, if everything is ok, you should see an EPICS prompt.
 
 ::
 
-    softIoc
-    epics>
+    $ /home/Hitesh/base-7.0.3.1/bin/windows-x64-mingw/softIoc
+    $ epics>
 
 You can exit with ctrl-c or by typing exit.
 
 Voilà.
 
 Ok, now you know that EPICS is installed correctly.
+
+Test EPICS in Windows
+---------------------
+
+Exit or minimise Msys2 environment. Open windows command prompt.
+
+::
+
+     cd c:\msys64\home\Hitesh\base-7.0.3.1\bin\windows-x64-mingw
+     softIoc.exe
+     dbLoadDatabase("c:\msys64\home\Hitesh\base-7.0.3.1\bin\windows-x64-mingw\../../dbd/softIoc.dbd")
+     softIoc_registerRecordDeviceDriver(pdbbase)
+     epics >
