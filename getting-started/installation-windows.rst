@@ -89,23 +89,23 @@ Install EPICS
 ::
 
     $ cd $HOME
-    $ wget https://epics-controls.org/download/base/base-7.0.3.tar.gz
-    $ tar -xvf base-7.0.3.tar.gz
-    $ cd base-7.0.3
+    $ wget https://epics-controls.org/download/base/base-7.0.3.1.tar.gz
+    $ tar -xvf base-7.0.3.1.tar.gz
+    $ cd base-7.0.3.1
     $ export EPICS_HOST_ARCH=windows-x64-mingw
     $ make
 
 There should be lots of warnings, but no error. 
 
-Check EPICS Installation
+Test EPICS in Msys environment
 ------------------------
 
-Run ``softIoc`` and, if everything is ok, you should see an EPICS prompt.
+Run ``softIoc`` and, if everything is ok, you should see an EPICS prompt. You need to provide whole path here, as newly executables is yet not recognised as commands by widnows. That is need to be set by windows "edit the system environment variables". After that it directly works as commands. Replace 'user' with actual windows user name folder existing in your windows installation.
 
 ::
 
-    $ /home/Hitesh/base-7.0.3.1/bin/windows-x64-mingw/softIoc
-    $ epics>
+    $ /home/'user'/base-7.0.3.1/bin/windows-x64-mingw/softIoc
+    epics>
 
 You can exit with ctrl-c or by typing exit.
 
@@ -116,12 +116,16 @@ Ok, now you know that EPICS is installed correctly.
 Test EPICS in Windows
 ---------------------
 
-Exit or minimise Msys2 environment. Open windows command prompt.
+Exit or minimise Msys2 environment. Open windows command prompt. Here 'user' is windows user/account folder name.
 
 ::
 
-     cd c:\msys64\home\Hitesh\base-7.0.3.1\bin\windows-x64-mingw
-     softIoc.exe
-     dbLoadDatabase("c:\msys64\home\Hitesh\base-7.0.3.1\bin\windows-x64-mingw\../../dbd/softIoc.dbd")
-     softIoc_registerRecordDeviceDriver(pdbbase)
-     epics >
+    > cd c:\msys64\home\'user'\base-7.0.3.1\bin\windows-x64-mingw
+    > softIoc.exe -x test
+        Starting iocInit
+        ############################################################################
+        ## EPICS R7.0.3.1
+        ## EPICS Base built Apr 16 2020
+        ############################################################################
+        iocRun: All initialization complete
+        epics>
