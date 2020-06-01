@@ -135,10 +135,10 @@ Normal EPICS commands like caget, caput will still not work, as windows doesn't 
 
 1. Select ``Advance`` tab, navigate to ``Environment Variables`` button. That should open editable Tables of Path for Windows Environmet. 
 2. In ``User Variable for 'user'`` option, Press NEW
-3. Add EPICS BASE path here. In ``Variable Name``, Put "EPICS_BASE". In ``Variable Path``, put ``C:\msys64\home\'user'\base-7.0.3.1"
+3. Add EPICS BASE path here. In ``Variable Name``, Put "EPICS_BASE". In ``Variable Path``, put ``C:\msys64\home\'user'\base-7.0.3.1``
 4. One more variable to describe host architecture. In ``Variable Name``, put EPICS_HOST_ARCH. In ``Variable Value``, put "windows-x64-mingw"
 5. Now, Navigate to Variable called ``Path``. Press Edit. 
-6. To add new Path for EPICS commands, Press New again and put ``%EPICS_BASE%\bin\%EPICS_HOST_ARCH%``. Alternatively you can also put whole path as ``C:\msys64\home\'user'\base-7.0.3.1\bin\windows-x64-mingw" Press ok two times and you are done.
+6. To add new Path for EPICS commands, Press New again and put ``%EPICS_BASE%\bin\%EPICS_HOST_ARCH%``. Alternatively you can also put whole path as ``C:\msys64\home\'user'\base-7.0.3.1\bin\windows-x64-mingw`` Press ok two times and you are done.
 7. Restart the Machine and check if ``caget`` and ``camonitor`` is being recognised as valid commands.
 
 This should finish setting up EPICS environment in your windows machine. Let's test some basic commands and simple Process variable in windows ``command prompt``.
