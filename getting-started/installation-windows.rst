@@ -273,13 +273,13 @@ Now open ``Makefile`` and navigate to,
 
 ::
 
-    #DB += xxx.db``
+    #DB += xxx.db
 
 Remove # and change this to ``test.db`` ,
 
 ::
 
-    DB += test.db``
+    DB += test.db
 
 Go to back to root folder for IOC ``testioc``. Go to ``iocBoot\ioctest``. Modify ``st.cmd`` file.
 
@@ -287,13 +287,13 @@ Change
 
 ::
 
-    #dbLoadRecords("db/xxx.db","user=XXX")``
+    #dbLoadRecords("db/xxx.db","user=XXX")
 
 to
 
 ::
 
-    dbLoadRecords("db/test.db","user=XXX")``
+    dbLoadRecords("db/test.db","user=XXX")
 
 Save all the files and go back to ``MSYS2`` terminal,
 
