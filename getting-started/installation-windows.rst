@@ -330,6 +330,8 @@ to
     epicsEnvSet("TOP","C:/msys64/home/'user'/base-7.0.3.1/testioc")
     epicsEnvSet("EPICS_BASE","C:/msys64/home/'user'/base-7.0.3.1")
 
+``Note:Please pay attention to "back slash" here. Use linux style only for this part.``
+
 Save file.
 
 go back to windows ``command prompt``,
