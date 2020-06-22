@@ -10,7 +10,7 @@ Welcome to the EPICS How-To Pages!
    :hidden:
 
    EPICS Website <https://epics-controls.org>
-   EPICS Documents <https://epics-controls.org/resources-and-support/documents/>
+   EPICS Documents <https://docs.epics-controls.org>
 
 
 .. toctree::
@@ -18,7 +18,9 @@ Welcome to the EPICS How-To Pages!
    :caption: Getting started
 
    getting-started/installation
+   getting-started/linux-packages.rst
    getting-started/creating-ioc
+   getting-started/installation-windows
 
 
 .. toctree::

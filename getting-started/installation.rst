@@ -16,7 +16,8 @@ Prepare your system
 
 You need ``make``, ``c++`` and ``libreadline`` to compile from source. On macOS these
 dependencies can be installed by using e.g. ``homebrew``. On Linux you
-can use ``apt-get install``.
+can use ``apt-get install``.  The :doc:`linux-packages` document lists all 
+of the packages required to build EPICS base, the sequencer, synApps modules, and areaDetector.
 
 Install EPICS
 -------------
@@ -126,8 +127,8 @@ wanted to see more digits, you could run
     camonitor -g8 temperature:water
 
 For further details on the Channel Access protocol, including documentation
-on the ``caput``, ``caget``, ``camonitor``...
-command line tools, please refer to the `Channel Access Reference Manual <https://epics.anl.gov/base/R3-14/8-docs/CAref.html>`_.
+on the ``caput``, ``caget``, ``camonitor``... command line tools, please refer to the
+`Channel Access Reference Manual <https://epics.anl.gov/base/R3-15/7-docs/CAref.html#CommandTools>`_.
 
 In real life, however, it is unlikely that the 8 digits returned by your
 thermometer (in this example) are all significant. We should thus limit the
@@ -151,8 +152,9 @@ MDEL stands for Monitor Deadband. If you now run
 with the new ``test.db`` file, you will see that
 ``camonitor`` reacts only to changes that are larger than 0.01.
 
-This was just a simple example. Please refer to the `Record Reference Manual <https://epics.anl.gov/EpicsDocumentation/AppDevManuals/RecordRef/Recordref-1.html>`_ for further
-information.
+This was just a simple example. Please refer to a recent
+`Record Reference Manual <https://epics.anl.gov/base/R3-15/7-docs/RecordReference.html>`_
+for further information.
 
 Create a demo/test ioc to test ca and pva
 -----------------------------------------
@@ -188,15 +190,11 @@ Create a demo/test ioc to test ca and pva
     ## EPICS R7.0.1.2-DEV 
     ## EPICS Base built Mar 8 2018 
     ############################################################################ 
-    cas warning: Configured TCP port was unavailable. 
-    cas warning: Using dynamically assigned TCP port 52907, 
-    cas warning: but now two or more servers share the same UDP port. 
-    cas warning: Depending on your IP kernel this server may not be 
-    cas warning: reachable with UDP unicast (a host's IP in EPICS_CA_ADDR_LIST) 
     iocRun: All initialization complete 
     2018-03-09T13:07:02.475 Using dynamically assigned TCP port 52908. 
     ## Start any sequence programs 
-    #seq sncExample, "user=maradona" epics> dbl
+    #seq sncExample, "user=maradona"
+    epics> dbl
     maradona:circle:tick
     maradona:compressExample
     maradona:line:b
@@ -224,7 +222,7 @@ Add the asyn package
     git clone https://github.com/epics-modules/asyn.git
     cd asyn
 
-Edit ``$HOME/EPICS/spport/asyn/configure/RELEASE`` and set
+Edit ``$HOME/EPICS/support/asyn/configure/RELEASE`` and set
 ``EPICS_BASE`` like
 
 ::
