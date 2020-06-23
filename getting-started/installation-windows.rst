@@ -425,7 +425,7 @@ Above terminal will monitor variable ``test:add`` continously. If any value chan
 
 Open one ``command prompt`` (call it t3). using caput modify values of  ``test:pv1`` and ``test:pv2`` as we have done in temperature example above. You shall see changes in terminal t2 accordingly
   
-Now, You have one IOC ``testioc`` running with database ``test.db`` which has 3 process variable (PV) loaded and connected. If you add more process variable in ``test.db``, you will have to stop ``IOC``, run ``make`` command again to load new PV in existing "IOC".
+Now, You have one IOC ``testioc`` running with database ``test.db`` which has 3 process variable (PV) loaded and connected. If you add more process variable in ``test.db``, you will have to stop ``IOC``, and run that IOC again to load new PV in existing "IOC".
 
 You can also may IOCs like this in parallel with their own database and process variables. Just keep in mind that each PV has to have unique name, otherwise IOCs may crash.
 
