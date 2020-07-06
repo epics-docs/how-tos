@@ -8,13 +8,20 @@ We assume that you know more or less what EPICS is. You can get basic idea from 
 Prepare your system
 -------------------
 
-You Need 'C++ Libraries', 'GNU make'  and 'GCC' to compile from source. On Windows these dependencies can be installed by using msys2 tool. This tool is available windows 7 onwards only. Currently this procedure is verified on windows 8.1 (64 bit) and Windows 10 (64 bit). But, It should work for all the version of windows. In case we test it for other versions, We will update the document.
+You will need 'C++ Libraries', 'GNU make'  and 'GCC' to compile from source. On Windows these dependencies can be installed by various methods,
+
+* Mirosoft visual studio 
+* Strawberry Perl
+* Msys2
+
+Here we will use Msys2, as it has all the required tools available inside, and it looks and feels like linux "bash". Most of commands are similar to linux. This tool is available windows 7 onwards only. Currently this procedure is verified on windows 8.1 (64 bit) and Windows 10 (64 bit). But, It should work for all the version of windows. In case we test it for other versions, We will update the document.
 
 Install Tools
 -------------------
-MSYS2 provides a bash shell, Autotools, revision control systems and the like for building native Windows applications using MinGW-w64 toolchains. Tool can be installed from official website <https://www.msys2.org>. Download and run the installer - "x86_64" for 64-bit, "i686" for 32-bit Windows. Currently we go for 64 bit system. Installation procedure is well explained on website.
+MSYS2 provides a bash shell, Autotools, revision control systems and the like for building native Windows applications using MinGW-w64 toolchains. Tool can be installed from official `website <https://www.msys2.org>`_. Download and run the installer - "x86_64" for 64-bit, "i686" for 32-bit Windows. Currently we go for 64 bit system. Installation procedure is well explained on website.
 
 Once installation in complete, you have three options available. Launch "MSYS MinGW 64-bit" option (MSYS2 and 32-bit option fails to compile EPICS). It shall provide you bash which resembles linux command shell. 
+
 Update MSYS2 with following command
 
 ::
@@ -23,7 +30,7 @@ Update MSYS2 with following command
   
 After finished Close the bash (do not exit). Open bash again and run the same command again to finish the updates.
 
-``tar`` is also needed to unpack the EPICS base
+``tar`` is needed to unpack the EPICS base
 
 ::
 
@@ -96,12 +103,12 @@ Install EPICS
     $ export EPICS_HOST_ARCH=windows-x64-mingw
     $ make
 
-There should be lots of warnings, but no error. 
+There should be lots of warnings, but no error. You can choose any EPICS base to install, procedure remains the same.
 
-Test EPICS in Msys environment
+EPICS in Msys environment
 ------------------------
 
-Run ``softIoc`` and, if everything is ok, you should see an EPICS prompt. You need to provide whole path here, as newly executables is yet not recognised as commands by widnows. That is need to be set by windows "edit the system environment variables". After that it directly works as commands. Replace 'user' with actual windows user name folder existing in your windows installation.
+Run ``softIoc`` and, if everything is ok, you should see an EPICS prompt. You need to provide whole path here, as newly executables is yet not recognised as commands by widnows. That is need to be set by windows "edit the system environment variables". After that it directly works as commands. We will discuss this in details later. Run command as show below. Replace 'user' with actual windows user name folder existing in your windows installation.
 
 ::
 
@@ -112,9 +119,9 @@ You can exit with ctrl-c or by typing exit.
 
 Voilà.
 
-Ok, now you know that EPICS is installed correctly.
+Now you know that EPICS is installed correctly. If you type 'dbl' you should get empty results right now as there is no process variable or IOC running. Otherwise it should show list of ``Process Variables``.
 
-Test EPICS in Windows
+EPICS in Windows
 ---------------------
 
 Exit or minimise Msys2 environment. Open windows command prompt. Here 'user' is windows-user/account folder name.
@@ -131,7 +138,13 @@ Exit or minimise Msys2 environment. Open windows command prompt. Here 'user' is 
         iocRun: All initialization complete
         epics>
 
-Normal EPICS commands like caget, caput will still not work, as windows doesn't recognise them as valid commands. You have to add those paths in windows Environment Variable. Go to Start Manu, Type "environment" and select ``Edit the system Environment Variables``. 
+Normal EPICS commands like caget, caput will still not work, as windows doesn't recognise them as valid commands. You have to add some paths in windows Environment. We will configure three paths,
+
+* EPICS_BASE
+* EPICS_HOST_ARCH
+* Path
+
+Go to Start Manu, Type "environment" and select ``Edit the system Environment Variables``. 
 
 1. Select ``Advance`` tab, navigate to ``Environment Variables`` button. That should open editable Tables of Path for Windows Environmet. 
 2. In ``User Variable for 'user'`` option, Press NEW
@@ -141,9 +154,30 @@ Normal EPICS commands like caget, caput will still not work, as windows doesn't 
 6. To add new Path for EPICS commands, Press New again and put ``%EPICS_BASE%\bin\%EPICS_HOST_ARCH%``. Alternatively you can also put whole path as ``C:\msys64\home\'user'\base-7.0.3.1\bin\windows-x64-mingw`` Press ok two times and you are done.
 7. Restart the Machine and check if ``caget`` and ``camonitor`` is being recognised as valid commands.
 
-This should finish setting up EPICS environment in your windows machine. Let's test some basic commands and simple Process variable in windows ``command prompt``.
+This should finish setting up EPICS environment in your windows machine. Let's test if architecure is properly set,
 
-prepare a file ``test.db`` in ``C:\msys64\home\'user'\base-7.0.3.1\bin\windows-x64-mingw`` that reads like,
+in Windows ``command prompt``,
+
+::
+
+    > set EPICS_HOST_ARCH
+    EPICS_HOST_ARCH=windows-x64-mingw
+
+
+in Mysys2 ``bash``
+
+::
+
+    $ echo $EPICS_HOST_ARCH
+    windows-x64-mingw
+
+Observe that output in Windows and Msys environment is "windows-x64-mingw".
+
+
+Simple Check for Process Variables
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Let's test some basic commands and simple Process variable in windows ``command prompt``. prepare a file ``test.db`` in ``C:\msys64\home\'user'\base-7.0.3.1\bin\windows-x64-mingw`` that reads like,
 
 ::
 
@@ -211,7 +245,7 @@ Monitor changes in terminal t2,
     temperature:water              2020-04-22 17:53:06.053267 27
     temperature:water              2020-04-22 17:53:09.003619 28.1
 
-This concludes EPICS installation, Windows Environment variable settings and EPICS basic testing. We can ``MSYS2`` for building EPICS and IOCs. Files and EPICS executable created from that process can be run in windows environment using ``command prompt``.
+This concludes EPICS installation, Windows Environment variable settings and EPICS basic testing. We can use ``MSYS2`` for building EPICS and IOCs. Files and EPICS executable created from that process can be run in windows environment using ``command prompt``.
 
 Create a demo/test ioc
 ----------------------
@@ -305,14 +339,16 @@ go to ioc root folder and run ``make``,
     $ export EPICS_HOST_ARCH=windows-x64-mingw
     $ make
 
-It should create all the files required for test ioc,
+``Note : export EPICS_HOST_ARCH is only required if architecture environment is not properly set. Otherwise it can be ignored.``
+
+This should create all the files required for test ioc,
 
 ::
     
     $ ls
     bin  configure  db  dbd  iocBoot  lib  Makefile  testApp
 
-Now we go back to windows. Go to ``\testioc\iocBoot\ioctest`` . Open ``envPaths`` file and change relative paths to full paths
+Go to ``\testioc\iocBoot\ioctest`` . Open ``envPaths`` file and change relative paths to full paths
 
 from,
 
@@ -330,6 +366,8 @@ to
     epicsEnvSet("TOP","C:/msys64/home/'user'/base-7.0.3.1/testioc")
     epicsEnvSet("EPICS_BASE","C:/msys64/home/'user'/base-7.0.3.1")
 
+``Note:Please pay attention to "back slash" here. Use linux style only for this part. It won't work otherwise``
+
 Save file.
 
 go back to windows ``command prompt``,
@@ -337,7 +375,9 @@ go back to windows ``command prompt``,
 ::
 
     > cd C:\msys64\home\'user'\base-7.0.3.1\testioc\iocBoot\ioctest
+    
     > C:\msys64\home\'user'\base-7.0.3.1\testioc\iocBoot\ioctest>..\..\bin\windows-x64-mingw\test.exe st.cmd
+    
     #!../../bin/windows-x64-mingw/test
     < envPaths
     epicsEnvSet("IOC","ioctest")
@@ -372,6 +412,8 @@ Check if database ``test.db`` you created is loaded correctly
     test:pv1
     test:pv2
 
+As you can see 3 process variable is loaded and available. Keep this terminal open and running. Test this process variable using another terminals.
+
 Open other ``commad prompt`` (call it t2) for monitoring  ``test:add``. type "camonitor test:add"
 
 ::
@@ -379,5 +421,11 @@ Open other ``commad prompt`` (call it t2) for monitoring  ``test:add``. type "ca
     > camonitor test:add
     > test:add                       2020-04-22 18:47:59.692169 100
 
-Open one ``command prompt`` (call it t3). using caput modify values of  ``test:pv1`` and ``test:pv2``. You shall see changes in terminal t2 accordingly
+Above terminal will monitor variable ``test:add`` continously. If any value change is detected it will be updated in this terminal. Keep this terminal also open to observe the behaviour.
+
+Open one ``command prompt`` (call it t3). using caput modify values of  ``test:pv1`` and ``test:pv2`` as we have done in temperature example above. You shall see changes in terminal t2 accordingly
   
+Now, You have one IOC ``testioc`` running with database ``test.db`` which has 3 process variable (PV) loaded and connected. If you add more process variable in ``test.db``, you will have to stop ``IOC``, and run that IOC again to load new PV in existing "IOC".
+
+You can also may IOCs like this in parallel with their own database and process variables. Just keep in mind that each PV has to have unique name, otherwise IOCs may crash.
+
