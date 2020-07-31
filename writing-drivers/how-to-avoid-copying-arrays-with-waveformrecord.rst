@@ -1,7 +1,7 @@
-How to avoid copying arrays with waveformRecord
+How to Avoid Copying Arrays with waveformRecord
 ===============================================
 
-This page describes how to use the `array field memory management <https://code.launchpad.net/%7Eepics-core/epics-base/array-opt>`_ feature to be introduced in EPICS 3.15.1 (not yet released).
+This page describes how to use the array field memory management feature that was introduced in EPICS 3.15.1.
 This allows array data to be moved into and out of the value (aka BPTR) field of the waveform, aai, and aao types.
 
 Making use of this feature involves replacing the pointer stored in the BPTR field with another (user allocated) pointer.
@@ -22,8 +22,7 @@ Example
 
     /* Demonstration of using custom allocation for waveformRecord buffers.
      *
-     * Requires EPICS Base with the array field memory management patch
-     * https://code.launchpad.net/~epics-core/epics-base/array-opt
+     * Requires EPICS Base 3.15.1 or newer
      *
      * This example makes inefficient use of malloc() and
      * free().  This is done to make clear where new memory appears.
