@@ -254,40 +254,19 @@ Now, run
 
 Install StreamDevice (by Dirk Zimoch, PSI)
 ------------------------------------------
-
-StreamDevice does not come with its own top location and
-``top/configure`` directory. It expects to be put into an already
-existing top directory structure. We can simply create one with
-``makeBaseApp.pl``
-
 ::
 
     cd $HOME/EPICS/support
-    mkdir stream
-    cd stream/
-    makeBaseApp.pl -t support
     git clone https://github.com/paulscherrerinstitute/StreamDevice.git
     cd StreamDevice/
     rm GNUmakefile
 
-Now we must edit the
-``$HOME/EPICS/support/stream/configure/RELEASE``. The not-commented
-lines must read
-
+Edit ``$HOME/EPICS/support/StreamDevice/configure/RELEASE`` to specify the install location of EPICS base and of additional software modules, for example:
 ::
 
-    # Variables and paths to dependent modules:
-    MODULES = ${HOME}/EPICS/support
-    # If using the sequencer, point SNCSEQ at its top directory:
-    #SNCSEQ = $(MODULES)/seq-ver
-    # EPICS_BASE should appear last so earlier modules can override stuff:
-    EPICS_BASE = ${HOME}/EPICS/epics-base
-    # These lines allow developers to override these RELEASE settings
-    # without having to modify this file directly.
-    -include $(TOP)/../RELEASE.local
-    #-include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local
-    -include $(TOP)/configure/RELEASE.local
-    ASYN=$(MODULES)/asyn
+    EPICS_BASE=${HOME}/EPICS/epics-base
+    SUPPORT=${HOME}/EPICS/support
+    ASYN=$(SUPPORT)/asyn
 
 Remember that ``$(NAME)`` works if it is defined within the same
 file, but ``${NAME}`` with curly brackets must be used if a shell
@@ -295,4 +274,23 @@ variable is meant. It is possible that the compiler does not like some of the
 substitutions. In that case, replace the ``${NAME}`` variables with
 full paths, like ``/Users/maradona/EPICS...``.
 
-Finally run ``make`` (we are in the directory ``...EPICS/support/stream/StreamDevice``)
+The sCalcout record is part of synApps. If streamDevice should be built with support for this record, you have to install at least the calc module from SynApps first. For now let's just comment out that line with ``#`` for it to be ignored.
+
+::
+    #CALC=${HOME}/EPICS/support/synApps/calc
+
+If you want to enable regular expression matching, you need the PCRE package. For most Linux systems, it is already installed. In that case tell StreamDevice the locations of the PCRE header file and library. However, the pre-installed package can only by used for the host architecture. Thus, add them not to RELEASE but to RELEASE.Common.linux-x86 (if linux-x86 is your EPICS_HOST_ARCH). Be aware that different Linux distributions may locate the files in different directories.
+::
+
+    PCRE_INCLUDE=/usr/include/pcre
+    PCRE_LIB=/usr/lib
+
+For 64 bit installations, the path to the library may be different:
+::
+
+    PCRE_INCLUDE=/usr/include/pcre
+    PCRE_LIB=/usr/lib64
+
+Again, if you're not interested in support for reular expression matching at this time then you can comment out any lines referring to PCRE in the ``configure/RELEASE`` file using a ``#``. It can always be added later. 
+
+Finally run ``make`` (we are in the directory ``...EPICS/support/StreamDevice``)
