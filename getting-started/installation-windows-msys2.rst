@@ -1,18 +1,5 @@
-﻿Installation on Windows
-=======================================
-
-Introduction
------------------------------------
-We assume that you know more or less what EPICS is. You can get basic idea from https://epics-controls.org/about-epics/. Here we want to start from scratch on windows system and get to the point where we have a working server, then you get on other how-tos to take you further. 
-
-Prepare your system
--------------------
-
-You will need 'C++ Libraries', 'GNU make'  and 'GCC' to compile from source. On Windows these dependencies can be installed by various methods,
-
-* Mirosoft visual studio 
-* Strawberry Perl
-* Msys2
+﻿Installation using MSYS2 
+========================
 
 Here we will use Msys2, as it has all the required tools available inside, and it looks and feels like linux "bash". Most of commands are similar to linux. This tool is available windows 7 onwards only. Currently this procedure is verified on windows 8.1 (64 bit) and Windows 10 (64 bit). But, It should work for all the version of windows. In case we test it for other versions, We will update the document.
 
