@@ -1,15 +1,25 @@
-﻿Installation on plain Windows
-=============================
+﻿Installation using plain Windows and the Visual Studio compilers
+================================================================
 
-Install Tools
+Install tools
 -------------
+There are two reasonable options.
 
-Perl
-^^^^
+Using Chocolatey
+^^^^^^^^^^^^^^^^
+Go to the `Chocolatey website <https://chocolatey.org/>`_ and follow their instructions to download and install the package manager.
 
+Using Chocolatey, install Strawberry Perl and Gnu Make.
+
+Manually
+^^^^^^^^
 Install Strawberry Perl or ActivePerl using the Windows installers available on their download pages.
 
-Make sure their locations are added to the system environment variable Path. Inside a shell (command prompt) they should be callable using their simple name, e.g.
+Strawberry Perl contains a suitable version of GNU Make. Otherwise, you can download a Windows executable that Andrew provides at https://epics.anl.gov/download/tools/make-4.2.1-win64.zip. Unzip it into a location (path must not contain spaces or parentheses) and add it to the system environment, so that
+
+Put tools in the Path
+^^^^^^^^^^^^^^^^^^^^^
+Make sure the tools' locations are added to the system environment variable Path. Inside a shell (command prompt) they must be callable using their simple name, e.g.
 
 ::
 
@@ -24,13 +34,6 @@ Make sure their locations are added to the system environment variable Path. Ins
     Built Dec 11 2017 12:23:25
     ...
 
-GNU Make
-^^^^^^^^
-
-Strawberry Perl contains a suitable version of GNU Make. Otherwise, you can download a Windows executable that Andrew provides at https://epics.anl.gov/download/tools/make-4.2.1-win64.zip. Unzip it into a location (path must not contain spaces or parentheses) and add it to the system environment, so that
-
-::
-
     >make --version
     GNU Make 4.2.1
     Built for x86_64-w64-mingw32
@@ -39,33 +42,22 @@ Strawberry Perl contains a suitable version of GNU Make. Otherwise, you can down
     This is free software: you are free to change and redistribute it.
     There is NO WARRANTY, to the extent permitted by law.
 
-Python
-^^^^^^
-
-Same procedure: install using the official downloader and put the location in the Path, so that you can call it as
-
-::
-
-    >python --version
-    Python 3.8.6
-
 Install the compiler
 --------------------
-
-Get the Visual Studio Installer and install. Make sure you enable the Programming Languages / C++ Development options.
+Download the Visual Studio Installer and install (the community edition is free). Make sure you enable the Programming Languages / C++ Development options.
 
 In VS 2019, you also have the option to additionally install the Visual C++ 2017 compilers, if that is interesting for you.
     
-Install EPICS
--------------
+Download and build EPICS Base
+-----------------------------
 
 1. Download the distribution from e.g. https://epics-controls.org/download/base/base-7.0.4.1.tar.gz.
 2. Unpack it into a work directory.
-3. Open a shell (command prompt, MSYS2 bash, ...) and change into the directory you unpacked EPICS Base into.
+3. Open a Windows command prompt and change into the directory you unpacked EPICS Base into.
 
-   **Note: The current directory mustn't contain any spaces or parentheses. If it does, you can do another cd into the same directory, replacing every component containing spaces or parentheses with its Windows short path (can be displayed with ``dir /x``).**
-4. Set the EPICS host architecture (windows-x86 for 64bit builds, win32-x86 for 32bit builds).
-5. Run the ``vcvarsall.bat`` script of your installation (exact path depends on the type and language of installation) to set the environment for your build.
+   **Note:** The complete path of the current directory mustn't contain any spaces or parentheses. If your working directory path does, you can do another cd into the same directory, replacing every path component containing spaces or parentheses with its Windows short path (that can be displayed with ``dir /x``).
+4. Set the EPICS host architecture EPICS_HOST_ARCH (windows-x86 for 64bit builds, win32-x86 for 32bit builds).
+5. Run the ``vcvarsall.bat`` script of your installation (the exact path depends on the type and language of installation) to set the environment for your build.
 6. Run ``make``.
 
 ::
@@ -83,170 +75,239 @@ Install EPICS
 
 There will probably be warnings, but there should be no error. You can choose any EPICS base to install, the procedure remains the same.
 
-Using EPICS from MSYS2 Bash
----------------------------
-
+Quick test from MSYS2 Bash
+--------------------------
 As long as you haven't added the location of your programs to the `%PATH%` environment variable (see below), you will have to provide the whole path to run commands or `cd` into the directory they are located in and prefix "./".
 
-Replace 'user' with the Windows user folder name existing in your Windows installation.
+Replace 'user' with the actual Windows user folder name existing in your Windows installation - MSYS2 creates your home directory using that name. In the examples, we assume the default location for MSYS2 (``C:\msys64``).
 
 Run ``softIoc`` and, if everything is ok, you should see an EPICS prompt.
 
 ::
 
-    $ cd /c/Users/'user'/base-R7.0.4.1/bin/windows-x64
+    $ cd /home/'user'/base-R7.0.4.1/bin/windows-x64-mingw
     $ ./softIoc -x test
     Starting iocInit
     iocRun: All initialization complete
-    dbLoadDatabase("C:\Users\'user'\base-R7.0.4.1\bin\windows-x64\..\..\dbd\softIoc.dbd")
+    dbLoadDatabase("C:\msys64\home\'user'\base-R7.0.4.1\bin\windows-x64-mingw\..\..\dbd\softIoc.dbd")
     softIoc_registerRecordDeviceDriver(pdbbase)
     iocInit()
     ############################################################################
     ## EPICS R7.0.4.1
-    ## Rev. 2020-10-21T12:17+0200
+    ## Rev. 2020-10-21T11:57+0200
     ############################################################################
     epics>
 
 You can exit with ctrl-c or by typing exit.
 
-Voilà.
+As long as you are in the location of the EPICS Base binaries, you can run them by prefixing "./". Try commands like ``./caput``, ``./caget``, ``./camonitor``, ...
 
-Now you know that EPICS is installed correctly. If you type 'dbl' you should get a list of the `records` that your IOC provides as PVs (process variables).
+Quick test from Windows command prompt
+--------------------------------------
+Open the Windows command prompt. Again, 'user' is the Windows user folder name.
+The MSYS2 home folders are inside the MSYS2 installation.
 
-Using EPICS from plain Windows
-------------------------------
-
-Open a shell, e.g., the Windows command prompt. Again, 'user' is the Windows user folder name.
+If you built EPICS Base with dynamic (DLL) linking, you need to add the location of the C++ libraries to the `PATH` variable for them to be found. (Again, assuming a 64bit MSYS2 installation with default paths and the MinGW 64bit toolchain.)
 
 ::
 
-    >cd C:\Users\'user'\base-R7.0.4.1\bin\windows-x64
-    >softIoc -x test
-    dbLoadDatabase("C:\Users\'user'\base-R7.0.4.1\bin\windows-x64\..\..\dbd\softIoc.dbd")
-    softIoc_registerRecordDeviceDriver(pdbbase)
-    iocInit()
+    > set "PATH=%PATH%C:\msys64\mingw64\bin;"
+    > cd C:\msys64\home\'user'\base-R7.0.4.1\bin\windows-x64-mingw
+    > softIoc -x test
     Starting iocInit
     ############################################################################
     ## EPICS R7.0.4.1
-    ## Rev. 2020-10-21T12:17+0200
+    ## Rev. 2020-10-21T11:57+0200
     ############################################################################
     iocRun: All initialization complete
     epics>
+
+You can exit with ctrl-c or by typing exit.
 
 As long as you are in the location of the EPICS Base binaries, they will all work using their simple names. Try commands like ``caput``, ``caget``, ``camonitor``, ...
 
-Setting the system environment
-------------------------------
+Create a demo/test IOC
+----------------------
+Although the ``softIoc`` binary can be used with multiple instances with different db files, you will need to create your own IOC at some point. We will create a test ioc from the existing application template in Base using the ``makeBaseApp.pl`` script.
 
-In order to run all EPICS commands everywhere by using their simple name and to build more EPICS modules using the same setup, we will set three environment variables for the current user on the Windows system:
+Let's create one IOC, which takes the values of 2 process variables (PVs), adds them and stores the result in 3rd PV.
 
-* EPICS_BASE
-* EPICS_HOST_ARCH
-* Path
-
-Go to Start Manu, Type "environment" and select ``Edit the system Environment Variables``. 
-
-1. Select ``Advance`` tab, navigate to ``Environment Variables`` button. That should open editable Tables of Path for Windows Environmet. 
-2. In ``User Variable for 'user'`` option, Press NEW
-3. Add EPICS BASE path here. In ``Variable Name``, Put "EPICS_BASE". In ``Variable Path``, put "C:\Users\'user'\base-R7.0.4.1"
-4. One more variable to describe host architecture. In ``Variable Name``, put EPICS_HOST_ARCH. In ``Variable Value``, put "windows-x64"
-5. Navigate to the variable called ``Path``. Press Edit. 
-6. To add the path for the EPICS commands, Press New again and put ``%EPICS_BASE%\bin\%EPICS_HOST_ARCH%``. Press ok twice and you are done.
-7. Restart the Machine and check if EPICS commands like ``caget`` and ``camonitor`` are being recognized as valid commands in any location.
-
-This should finish setting up EPICS environment in your Windows machine.
-
-To check if the architecture is properly set,
-
-in Windows ``command prompt``,
+We will use the Windows command prompt for building the IOC. Open the command prompt. Create a new directory ``testioc``.
 
 ::
 
-    > set EPICS_HOST_ARCH
-    EPICS_HOST_ARCH=windows-x64
-
-
-in MSYS2 ``bash``
-
-::
-
-    $ echo $EPICS_HOST_ARCH
-    windows-x64
-
-
-Simple Check for Process Variables
-----------------------------------
-
-Let's test some basic commands and a simple Process Variable in the Windows ``command prompt``. Prepare a file ``test.db`` in ``C:\Users\'user'\epics-test`` that reads like,
+    >mkdir testioc
+    >cd testioc
+    
+From that ``testioc`` folder run the following.
 
 ::
 
-    record(ai, "temperature:water")
+    >makeBaseApp.pl -t ioc test
+    >makeBaseApp.pl -i -t ioc test
+    Using target architecture windows-x64 (only one available)
+    The following applications are available:
+        test
+    What application should the IOC(s) boot?
+    The default uses the IOC's name, even if not listed above.
+    Application name?
+    
+Accept the default name and press enter. That should generate a skeleton for your ``testioc``.
+
+You can find the full details of the application structure in the "Application Developer's Guide", chapter `Example IOC Application <https://epics.anl.gov/base/R3-16/2-docs/AppDevGuide/AppDevGuide.html>`_.
+
+::
+
+    >dir /b
+    configure
+	iocBoot
+	Makefile
+	testApp
+    
+Now create a ``db`` file which describes PVs for your ``IOC``. Go to ``testApp\Db`` and create ``test.db`` file with following record details.
+
+::
+
+    record(ai, "test:pv1")
     {
-        field(DESC, "Water temperature in the fish tank")
+        field(VAL, 49)
     }
-
-This file defines a record instance called ``temperature:water``, which is an analog input (ai) record. Its DESC field defines a description. Now we start the `softIoc` again, but this time using our record database.
+    record(ai, "test:pv2")
+    {
+        field(VAL, 51)
+    }
+    record(calc,"test:add")
+    {
+        field(SCAN,"1 second")
+        field(INPA, "test:pv1")
+        field(INPB, "test:pv2")
+        field("CALC", "A + B")
+    }
+    
+Now open ``Makefile`` and navigate to
 
 ::
 
-    > cd epics-test
-    > softIoc -d test.db
-    dbLoadDatabase("C:\Users\'user'\base-R7.0.4.1\bin\windows-x64\..\..\dbd\softIoc.dbd")
-    softIoc_registerRecordDeviceDriver(pdbbase)
-    dbLoadRecords("test.db")
-    iocInit()
+    #DB += xxx.db
+
+Remove # and change this to ``test.db``.
+
+::
+
+    DB += test.db
+
+Go to back to root folder for IOC ``testioc``. Go to ``iocBoot\ioctest``. Modify the ``st.cmd`` startup command file.
+
+Change
+
+::
+
+    #dbLoadRecords("db/xxx.db","user=XXX")
+
+to
+
+::
+
+    dbLoadRecords("db/test.db","user=XXX")
+
+Save all the files and go back to the MSYS2 Bash terminal. Make sure the environment is set up correctly.
+
+::
+
+    >echo $EPICS_HOST_ARCH
+    windows-x64
+	>cl
+Microsoft (R) C/C++ Optimizing Compiler Version 19.27.29112 for x64
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+Change into the testioc folder and run ``make``. 
+
+::
+
+    >cd %HOMEPATH%\testioc
+    >make
+
+This should build the executable and create all files for the test IOC.
+
+::
+    
+    >dir /b
+    bin
+    configure
+    db
+    dbd
+    iocBoot
+    lib
+    Makefile
+    testApp
+
+At this point, you can run the IOC from either an MSYS2 Bash shell or from a Windows command prompt, by changing into the IOC directory and running the test.exe binary with your startup command script as parameter.
+
+In the Windows ``command prompt``:
+
+::
+
+    >cd %HOMEPATH%\testioc\iocBoot\ioctest    
+    >..\..\bin\windows-x64\test st.cmd
+
+In the MSYS2 shell:
+    
+::
+
+    $ cd ~/testioc/iocBoot/ioctest    
+    $ ../../bin/windows-x64/test st.cmd
+
+
+In both cases, the IOC should start like this
+
+::
+
     Starting iocInit
+    iocRun: All initialization complete
+    #!../../bin/windows-x64/test
+    < envPaths
+    epicsEnvSet("IOC","ioctest")
+    epicsEnvSet("TOP","C:/Users/'user'/testioc")
+    epicsEnvSet("EPICS_BASE","C:/Users/'user'/base-R7.0.4.1")
+    cd "C:/Users/'user'/testioc"
+    ## Register all support components
+    dbLoadDatabase "dbd/test.dbd"
+    test_registerRecordDeviceDriver pdbbase
+    Warning: IOC is booting with TOP = "C:/msys64/home/'user'/testioc"
+              but was built with TOP = "/home/'user'/testioc"
+    ## Load record instances
+    dbLoadRecords("db/test.db","user='user'")
+    cd "C:/Users/'user'/testioc/iocBoot/ioctest"
+    iocInit
     ############################################################################
     ## EPICS R7.0.4.1
-    ## Rev. 2020-10-21T12:17+0200
+    ## Rev. 2020-10-21T11:57+0200
     ############################################################################
-    iocRun: All initialization complete
+    ## Start any sequence programs
+    #seq sncxxx,"user='user'"
     epics>
-  
-From your EPICS prompt, you can list the available records with the ``dbl`` command and you will see something like
+
+Check if the database ``test.db`` you created is loaded correctly
 
 ::
 
     epics> dbl
-    temperature:water
+    test:pv1
+    test:pv2
+    test:add
 
-Open a second terminal to monitor the value of that variable.
+As you can see 3 process variable is loaded and available. Keep this terminal open and running. Test this process variable using another terminals.
 
+Open another shell for monitoring ``test:add``.
 ::
 
-    camonitor temperature:water
-    
-Open a third terminal and try to change the value of the PV using ``caput``. you can also read the value back using ``caget``.
+    >camonitor test:add
+    test:add                       2020-10-23 13:39:14.795006 100
 
-::
+That terminal will monitor the PV ``test:add`` continuously. If any value change is detected, it will be updated in this terminal. Keep it open to observe the behaviour.
 
-    >caput temperature:water 23
-    Old : temperature:water              0
-    New : temperature:water              23
-    
-    >caput temperature:water 24
-    Old : temperature:water              23
-    New : temperature:water              24
-    
-    >caput temperature:water 27
-    Old : temperature:water              24
-    New : temperature:water              27
-    
-    >caput temperature:water 28.1
-    Old : temperature:water              27
-    New : temperature:water              28.1
+Open a third shell. Using caput, modify the values of  ``test:pv1`` and ``test:pv2`` as we have done in the temperature example above. You will see changes of their sum in the second terminal accordingly.
 
-    >caget temperature:water
-    temperature:water              28.1
+At this point, you have one IOC ``testioc`` running, which loaded the database ``test.db`` with 3 records. From other processes, you can connect to these records using Channel Access. If you add more process variable in ``test.db``, you will have to ``make`` the `testioc` application again and restart the IOC to load the new version of the database.
 
-Monitor the changes in the second terminal:
-
-::
-
-    temperature:water              2020-10-23 13:21:57.739281 23
-    temperature:water              2020-10-23 13:22:02.639010 24
-    temperature:water              2020-10-23 13:22:06.184726 27
-    temperature:water              2020-10-23 13:22:10.590232 28.1
-
-This concludes the installation of EPICS Base, setting the Windows environment variables and some basic tests of your EPICS installation. We can use this toolchain for building EPICS and IOCs. Executables created from that process can be run on Windows using the MSYS2 Bash shell or the command prompt.
+You can also create and run IOCs like this in parallel with their own databases and process variables. Just keep in mind that each record instance has to have a unique name for Channel Access to work properly.

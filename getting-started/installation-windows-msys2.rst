@@ -1,9 +1,8 @@
 ﻿Installation using MSYS2 and the MinGW Compilers
 ================================================
-
 MSYS2 has all the required tools available through an easy-to-use package manager, and its bash shell looks and feels like working on Linux. Most Bash commands are similar to their Linux versions. MSYS2 is available for Windows 7 and up only. The following procedure is verified on Windows 8.1 (64 bit) and Windows 10 (64 bit). Please report any unexpected behavior, so we can keep these instructions up-to-date.
 
-Install Tools
+Install tools
 -------------
 MSYS2 provides a Bash shell, Autotools, revision control systems and other tools for building native Windows applications using MinGW-w64 toolchains. It can be installed from its official `website <https://www.msys2.org>`_. Download and run the installer - "x86_64" for 64-bit, "i686" for 32-bit Windows. The installation procedure is well explained on the website. These instructions assume you are running on 64-bit Windows.
 
@@ -44,7 +43,6 @@ Packages with such "simple" names are part of the MSYS2 environment and work for
 
 Install compiler toolchains
 ---------------------------
-
 Packages that are part of a mingw toolchain start with the prefix "mingw-w64-x86_64-" for the MinGW 64bit toolchain or "mingw-w64-i686-" for the MinGW 32bit toolchain.
 (The "w64" part will be different when using a 32bit MSYS2 environment, e.g. on a 32bit Windows host.)
 
@@ -72,7 +70,6 @@ If you are not sure, check your set of tools is complete and everything is insta
 
 Update your installation regularly
 ----------------------------------
-
 As mentioned above, you can update your complete installation (including all tools and compiler toolchains) at any time using
 
 ::
@@ -97,9 +94,8 @@ When using the MinGW 32bit toolchain, the "MSYS MinGW 32-bit" shell must be used
 
 During the compilation, there will probably be warnings, but there should be no error. You can choose any EPICS Base version to build, the procedure remains the same.
 
-Using EPICS from MSYS2 Bash
----------------------------
-
+Quick test from MSYS2 Bash
+--------------------------
 As long as you haven't added the location of your programs to the `%PATH%` environment variable (see below), you will have to provide the whole path to run commands or `cd` into the directory they are located in and prefix "./".
 
 Replace 'user' with the actual Windows user folder name existing in your Windows installation - MSYS2 creates your home directory using that name. In the examples, we assume the default location for MSYS2 (``C:\msys64``).
@@ -123,13 +119,10 @@ Run ``softIoc`` and, if everything is ok, you should see an EPICS prompt.
 
 You can exit with ctrl-c or by typing exit.
 
-Voilà.
+As long as you are in the location of the EPICS Base binaries, you can run them by prefixing "./". Try commands like ``./caput``, ``./caget``, ``./camonitor``, ...
 
-Now you know that EPICS is installed correctly. If you type 'dbl' you should get a list of the `records` that your IOC provides as PVs (process variables).
-
-Using EPICS from Windows command prompt
----------------------------------------
-
+Quick test from Windows command prompt
+--------------------------------------
 Open the Windows command prompt. Again, 'user' is the Windows user folder name.
 The MSYS2 home folders are inside the MSYS2 installation.
 
@@ -148,13 +141,13 @@ If you built EPICS Base with dynamic (DLL) linking, you need to add the location
     iocRun: All initialization complete
     epics>
 
-As long as you are in the location of the EPICS Base binaries, they will all work using their simple names. Try commands like ``caput``, ``caget``, ``camonitor``, ...
+You can exit with ctrl-c or by typing exit.
 
+As long as you are in the location of the EPICS Base binaries, they will all work using their simple names. Try commands like ``caput``, ``caget``, ``camonitor``, ...
 
 Create a demo/test IOC
 ----------------------
-
-Although ``softIoc`` can be used with multiple instances with different db files, you will need to create your own IOC at some point. We will create a test ioc from the existing application templates in Base using the ``makeBaseApp.pl`` script.
+Although the ``softIoc`` binary can be used with multiple instances with different db files, you will need to create your own IOC at some point. We will create a test ioc from the existing application template in Base using the ``makeBaseApp.pl`` script.
 
 Let's create one IOC, which takes the values of 2 process variables (PVs), adds them and stores the result in 3rd PV.
 
@@ -187,7 +180,7 @@ You can find the full details of the application structure in the "Application D
     $ ls
     configure  iocBoot  Makefile  testApp
     
-Now create a ``db`` file which describes PVs for your ``IOC``. Go to ``testApp\Db`` and create ``test.db`` file with following record details.
+Now create a ``db`` file which describes PVs for your ``IOC``. Go to ``testApp/Db`` and create ``test.db`` file with following record details.
 
 ::
 
@@ -219,7 +212,7 @@ Remove # and change this to ``test.db``.
 
     DB += test.db
 
-Go to back to root folder for IOC ``testioc``. Go to ``iocBoot\ioctest``. Modify the ``st.cmd`` startup command file.
+Go to back to root folder for IOC ``testioc``. Go to ``iocBoot/ioctest``. Modify the ``st.cmd`` startup command file.
 
 Change
 
@@ -254,7 +247,7 @@ This should create all the files for the test IOC.
     $ ls
     bin  configure  db  dbd  iocBoot  lib  Makefile  testApp
 
-Go to ``iocBoot\ioctest`` . Open the ``envPaths`` file and change the MSYS2 relative paths to full Windows paths
+Go to ``iocBoot/ioctest`` . Open the ``envPaths`` file and change the MSYS2 relative paths to full Windows paths
 
 ::
 
@@ -277,8 +270,8 @@ In the MSYS2 shell:
     
 ::
 
-    >cd ~/testioc/iocBoot/ioctest    
-    >../../bin/windows-x64-mingw/test st.cmd
+    $ cd ~/testioc/iocBoot/ioctest    
+    $ ../../bin/windows-x64-mingw/test st.cmd
 
 
 In both cases, the IOC should start like this
@@ -324,7 +317,7 @@ As you can see 3 process variable is loaded and available. Keep this terminal op
 Open another shell for monitoring ``test:add``.
 ::
 
-    >camonitor test:add
+    $ camonitor test:add
     test:add                       2020-10-23 13:39:14.795006 100
 
 That terminal will monitor the PV ``test:add`` continuously. If any value change is detected, it will be updated in this terminal. Keep it open to observe the behaviour.
