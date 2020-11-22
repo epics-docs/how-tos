@@ -77,19 +77,19 @@ There will probably be warnings, but there should be no error. You can choose an
 
 Quick test from MSYS2 Bash
 --------------------------
-As long as you haven't added the location of your programs to the `%PATH%` environment variable (see below), you will have to provide the whole path to run commands or `cd` into the directory they are located in and prefix "./".
+As long as you haven't added the location of your programs to the ``PATH`` environment variable (see below), you will have to provide the whole path to run commands or `cd` into the directory they are located in and prefix the command with ``./``.
 
-Replace 'user' with the actual Windows user folder name existing in your Windows installation - MSYS2 creates your home directory using that name. In the examples, we assume the default location for MSYS2 (``C:\msys64``).
+Replace 'user' with the actual Windows user folder name existing in your Windows installation.
 
 Run ``softIoc`` and, if everything is ok, you should see an EPICS prompt.
 
 ::
 
-    $ cd /home/'user'/base-R7.0.4.1/bin/windows-x64-mingw
+    $ cd /c/Users/'user'/base-R7.0.4.1/bin/windows-x64
     $ ./softIoc -x test
     Starting iocInit
     iocRun: All initialization complete
-    dbLoadDatabase("C:\msys64\home\'user'\base-R7.0.4.1\bin\windows-x64-mingw\..\..\dbd\softIoc.dbd")
+    dbLoadDatabase("C:\Users\'user'\base-R7.0.4.1\bin\windows-x64\..\..\dbd\softIoc.dbd")
     softIoc_registerRecordDeviceDriver(pdbbase)
     iocInit()
     ############################################################################
@@ -105,21 +105,24 @@ As long as you are in the location of the EPICS Base binaries, you can run them 
 Quick test from Windows command prompt
 --------------------------------------
 Open the Windows command prompt. Again, 'user' is the Windows user folder name.
-The MSYS2 home folders are inside the MSYS2 installation.
 
-If you built EPICS Base with dynamic (DLL) linking, you need to add the location of the C++ libraries to the `PATH` variable for them to be found. (Again, assuming a 64bit MSYS2 installation with default paths and the MinGW 64bit toolchain.)
+Replace 'user' with the actual Windows user folder name existing in your Windows installation.
+
+Run ``softIoc`` and, if everything is ok, you should see an EPICS prompt.
 
 ::
 
-    > set "PATH=%PATH%C:\msys64\mingw64\bin;"
-    > cd C:\msys64\home\'user'\base-R7.0.4.1\bin\windows-x64-mingw
-    > softIoc -x test
+    >cd C:\Users\'user'\base-R7.0.4.1\bin\windows-x64-mingw
+    >softIoc -x test
     Starting iocInit
+    iocRun: All initialization complete
+    dbLoadDatabase("C:\Users\'user'\base-R7.0.4.1\bin\windows-x64\..\..\dbd\softIoc.dbd")
+    softIoc_registerRecordDeviceDriver(pdbbase)
+    iocInit()
     ############################################################################
     ## EPICS R7.0.4.1
     ## Rev. 2020-10-21T11:57+0200
     ############################################################################
-    iocRun: All initialization complete
     epics>
 
 You can exit with ctrl-c or by typing exit.
@@ -160,9 +163,9 @@ You can find the full details of the application structure in the "Application D
 
     >dir /b
     configure
-	iocBoot
-	Makefile
-	testApp
+    iocBoot
+    Makefile
+    testApp
     
 Now create a ``db`` file which describes PVs for your ``IOC``. Go to ``testApp\Db`` and create ``test.db`` file with following record details.
 
@@ -184,7 +187,7 @@ Now create a ``db`` file which describes PVs for your ``IOC``. Go to ``testApp\D
         field("CALC", "A + B")
     }
     
-Now open ``Makefile`` and navigate to
+Open ``Makefile`` and navigate to
 
 ::
 
@@ -216,9 +219,9 @@ Save all the files and go back to the MSYS2 Bash terminal. Make sure the environ
 
     >echo $EPICS_HOST_ARCH
     windows-x64
-	>cl
-Microsoft (R) C/C++ Optimizing Compiler Version 19.27.29112 for x64
-Copyright (C) Microsoft Corporation.  All rights reserved.
+    >cl
+    Microsoft (R) C/C++ Optimizing Compiler Version 19.27.29112 for x64
+    Copyright (C) Microsoft Corporation.  All rights reserved.
 
 Change into the testioc folder and run ``make``. 
 
@@ -263,7 +266,6 @@ In both cases, the IOC should start like this
 ::
 
     Starting iocInit
-    iocRun: All initialization complete
     #!../../bin/windows-x64/test
     < envPaths
     epicsEnvSet("IOC","ioctest")
@@ -273,8 +275,6 @@ In both cases, the IOC should start like this
     ## Register all support components
     dbLoadDatabase "dbd/test.dbd"
     test_registerRecordDeviceDriver pdbbase
-    Warning: IOC is booting with TOP = "C:/msys64/home/'user'/testioc"
-              but was built with TOP = "/home/'user'/testioc"
     ## Load record instances
     dbLoadRecords("db/test.db","user='user'")
     cd "C:/Users/'user'/testioc/iocBoot/ioctest"
@@ -283,6 +283,7 @@ In both cases, the IOC should start like this
     ## EPICS R7.0.4.1
     ## Rev. 2020-10-21T11:57+0200
     ############################################################################
+    iocRun: All initialization complete
     ## Start any sequence programs
     #seq sncxxx,"user='user'"
     epics>

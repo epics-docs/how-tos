@@ -1,6 +1,6 @@
 ﻿Installation using MSYS2 and the MinGW Compilers
 ================================================
-MSYS2 has all the required tools available through an easy-to-use package manager, and its bash shell looks and feels like working on Linux. Most Bash commands are similar to their Linux versions. MSYS2 is available for Windows 7 and up only. The following procedure is verified on Windows 8.1 (64 bit) and Windows 10 (64 bit). Please report any unexpected behavior, so we can keep these instructions up-to-date.
+MSYS2 has all the required tools available through an easy-to-use package manager, and its bash shell looks and feels like working on Linux. Most Bash commands are similar to their Linux versions. MSYS2 is available for Windows 7 and up only. The following procedure is verified on Windows 8.1 (64 bit) and Windows 10 (64 bit).
 
 Install tools
 -------------
@@ -33,7 +33,7 @@ After this finishes (let it close the bash shell), open bash again and run the s
     :: Starting full system upgrade...
      there is nothing to do
 
-Install the necessary tools (perl is already part of tha base system).
+Install the necessary tools (perl is already part of the base system).
 
 ::
 
@@ -43,8 +43,8 @@ Packages with such "simple" names are part of the MSYS2 environment and work for
 
 Install compiler toolchains
 ---------------------------
-Packages that are part of a mingw toolchain start with the prefix "mingw-w64-x86_64-" for the MinGW 64bit toolchain or "mingw-w64-i686-" for the MinGW 32bit toolchain.
-(The "w64" part will be different when using a 32bit MSYS2 environment, e.g. on a 32bit Windows host.)
+Packages that are part of a MinGW toolchain start with the prefix "mingw-w64-x86_64-" for the 64bit toolchain or "mingw-w64-i686-" for the 32bit toolchain.
+(The "w64" part identifies the host system will be different when using a 32bit MSYS2 environment, e.g. on a 32bit Windows host.)
 
 Install the MinGW 32bit and/or MinGW 64bit toolchains
 
@@ -96,7 +96,7 @@ During the compilation, there will probably be warnings, but there should be no 
 
 Quick test from MSYS2 Bash
 --------------------------
-As long as you haven't added the location of your programs to the `%PATH%` environment variable (see below), you will have to provide the whole path to run commands or `cd` into the directory they are located in and prefix "./".
+As long as you haven't added the location of your programs to the ``PATH`` environment variable (see below), you will have to provide the whole path to run commands or `cd` into the directory they are located in and prefix the command with ``./``.
 
 Replace 'user' with the actual Windows user folder name existing in your Windows installation - MSYS2 creates your home directory using that name. In the examples, we assume the default location for MSYS2 (``C:\msys64``).
 
@@ -119,7 +119,7 @@ Run ``softIoc`` and, if everything is ok, you should see an EPICS prompt.
 
 You can exit with ctrl-c or by typing exit.
 
-As long as you are in the location of the EPICS Base binaries, you can run them by prefixing "./". Try commands like ``./caput``, ``./caget``, ``./camonitor``, ...
+As long as you are in the location of the EPICS Base binaries, you can run them by prefixing with ``./``. Try commands like ``./caput``, ``./caget``, ``./camonitor``, ...
 
 Quick test from Windows command prompt
 --------------------------------------
@@ -130,9 +130,9 @@ If you built EPICS Base with dynamic (DLL) linking, you need to add the location
 
 ::
 
-    > set "PATH=%PATH%C:\msys64\mingw64\bin;"
-    > cd C:\msys64\home\'user'\base-R7.0.4.1\bin\windows-x64-mingw
-    > softIoc -x test
+    >set "PATH=%PATH%C:\msys64\mingw64\bin;"
+    >cd C:\msys64\home\'user'\base-R7.0.4.1\bin\windows-x64-mingw
+    >softIoc -x test
     Starting iocInit
     ############################################################################
     ## EPICS R7.0.4.1
@@ -173,7 +173,7 @@ From that ``testioc`` folder run the following.
     
 Accept the default name and press enter. That should generate a skeleton for your ``testioc``.
 
-You can find the full details of the application structure in the "Application Developer's Guide", chapter `Example IOC Application <https://epics.anl.gov/base/R3-16/2-docs/AppDevGuide/AppDevGuide.html>`_.
+You can find the full details of the application structure in the "Application Developer's Guide", chapter `Example IOC Application <https://epics.anl.gov/base/R3-16/2-docs/AppDevGuide/GettingStarted.html#x3-60002.2>`_.
 
 ::
 
@@ -200,7 +200,7 @@ Now create a ``db`` file which describes PVs for your ``IOC``. Go to ``testApp/D
         field("CALC", "A + B")
     }
     
-Now open ``Makefile`` and navigate to
+Open ``Makefile`` and navigate to
 
 ::
 
@@ -255,7 +255,7 @@ Go to ``iocBoot/ioctest`` . Open the ``envPaths`` file and change the MSYS2 rela
     epicsEnvSet("TOP","C:/msys64/home/'user'/testioc")
     epicsEnvSet("EPICS_BASE","C:/msys64/home/'user'/base-7.0.4.1")
 
-**Note: You have to use Linux style forward slash characters in path specifications inside this file.**
+**Note:** You have to use Linux style forward slash characters in path specifications inside this file.
 
 At this point, you can run the IOC from either an MSYS2 Bash shell or from a Windows command prompt, by changing into the IOC directory and running the test.exe binary with your startup command script as parameter.
 
