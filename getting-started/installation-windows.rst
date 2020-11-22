@@ -106,10 +106,12 @@ No matter which shell and environment you use, the tools (perl, make) should end
 
 Install and Build
 -----------------
-The detailed instructions for installing and building with MSYS2 and without are shown in the next two sections (pages).
+Depending on your set of choices, the instructions for building EPICS Base, building IOC applications and running them are different.
+The following detailed instructions focus on two common sets of choices: building using MSYS2 with the MinGW Gnu compilers and using the plain Windows command prompt with the Visual Studio compilers.
 
 .. toctree::
    :maxdepth: 1
 
    installation-windows-msys2
    installation-windows-plain
+   installation-windows-env
