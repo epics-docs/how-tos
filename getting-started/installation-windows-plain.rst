@@ -73,6 +73,8 @@ Download and build EPICS Base
 
 There will probably be warnings, but there should be no error. You can choose any EPICS base to install, the procedure remains the same.
 
+Please refer to the chapter "Build Time" in :doc:`installation-windows` for ways to shorten your build.
+
 Quick test from Windows command prompt
 --------------------------------------
 As long as you haven't added the location of your programs to the ``PATH`` environment variable (see :doc:`installation-windows-env`), you will have to provide the whole path to run commands or `cd` into the directory they are located in.

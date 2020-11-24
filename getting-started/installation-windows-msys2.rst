@@ -82,6 +82,8 @@ When using the MinGW 32bit toolchain, the "MSYS MinGW 32-bit" shell must be used
 
 During the compilation, there will probably be warnings, but there should be no error. You can choose any EPICS Base version to build, the procedure remains the same.
 
+Please refer to the chapter "Build Time" in :doc:`installation-windows` for ways to shorten your build.
+
 Quick test from MSYS2 Bash
 --------------------------
 As long as you haven't added the location of your programs to the ``PATH`` environment variable (see below), you will have to provide the whole path to run commands or `cd` into the directory they are located in and prefix the command with ``./``.

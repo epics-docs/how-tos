@@ -27,6 +27,13 @@ As mentioned before, EPICS Base has its own native Windows implementation of all
 
 Also, Cygwin is deprecated as a target platform for EPICS.
 
+Build Time
+^^^^^^^^^^
+The time needed to build EPICS Base depends on a few factors, including the speed of the processor and file system, the compiler used, the build mode (DLL or static), possibly debugging options and others.
+On a medium sized two-core machine, a complete build of EPICS 7 often takes between 15 and 30 minutes, the 3.15 branch can be built in 6 to 10 minutes.
+
+Use ``make -j<n>`` to make use of multiple CPU cores.
+
 Required Tools
 --------------
 * C++ compiler: either MinGW (GCC) or Microsoft's Visual Studio compiler (VS)
