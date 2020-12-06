@@ -1,431 +1,126 @@
-﻿Installation on Windows
-=======================================
+﻿=======================
+Installation on Windows
+=======================
 
 Introduction
------------------------------------
-We assume that you know more or less what EPICS is. You can get basic idea from https://epics-controls.org/about-epics/. Here we want to start from scratch on windows system and get to the point where we have a working server, then you get on other how-tos to take you further. 
+------------
 
-Prepare your system
--------------------
+EPICS
+^^^^^
+EPICS is a toolkit for building control systems. You can get the basic ideas from the EPICS web site at https://epics-controls.org/about-epics/.
 
-You will need 'C++ Libraries', 'GNU make'  and 'GCC' to compile from source. On Windows these dependencies can be installed by various methods,
+Traditionally, an EPICS installation starts with compiling the core parts ("EPICS Base") from source.
+This process is covered by these instructions, starting from scratch on a Windows system and getting you to the point where you have a working IOC and can connect to it from a command line shell.
+Other How-Tos will guide you further.
 
-* Mirosoft visual studio 
-* Strawberry Perl
-* Msys2
+EPICS on Windows
+^^^^^^^^^^^^^^^^
+While it is not its primary or most widely used target platform, the EPICS low-level libraries have good and
+well-tested implementations on Windows. EPICS runs fine on Windows targets, fast and robust.
 
-Here we will use Msys2, as it has all the required tools available inside, and it looks and feels like linux "bash". Most of commands are similar to linux. This tool is available windows 7 onwards only. Currently this procedure is verified on windows 8.1 (64 bit) and Windows 10 (64 bit). But, It should work for all the version of windows. In case we test it for other versions, We will update the document.
+There are, however, a few choices about how to compile and run EPICS on Windows that you will have to take beforehand.
+Understanding these choices and their implications before making decisions will help you to avoid mistakes and spend time fixing them.
 
-Install Tools
--------------------
-MSYS2 provides a bash shell, Autotools, revision control systems and the like for building native Windows applications using MinGW-w64 toolchains. Tool can be installed from official `website <https://www.msys2.org>`_. Download and run the installer - "x86_64" for 64-bit, "i686" for 32-bit Windows. Currently we go for 64 bit system. Installation procedure is well explained on website.
+Cygwin
+^^^^^^
+As mentioned before, EPICS Base has its own native Windows implementation of all necessary low level services. There is no need to go through the Posix emulation layer that Cygwin provides. The native Windows implementation is more portable and performs better. Unless you need to use Cygwin, e.g., if you are using a binary vendor-provided library for Cygwin, you should prefer a native Windows build.
 
-Once installation in complete, you have three options available. Launch "MSYS MinGW 64-bit" option (MSYS2 and 32-bit option fails to compile EPICS). It shall provide you bash which resembles linux command shell. 
+Also, Cygwin is deprecated as a target platform for EPICS.
 
-Update MSYS2 with following command
+Build Time
+^^^^^^^^^^
+The time needed to build EPICS Base depends on a few factors, including the speed of the processor and file system, the compiler used, the build mode (DLL or static), possibly debugging options and others.
+On a medium sized two-core machine, a complete build of EPICS 7 often takes between 15 and 30 minutes, the 3.15 branch can be built in 6 to 10 minutes.
 
-::
+Use ``make -j<n>`` to make use of multiple CPU cores.
 
-    $ pacman -Syu
-  
-After finished Close the bash (do not exit). Open bash again and run the same command again to finish the updates.
+Required Tools
+--------------
+* C++ compiler: either MinGW (GCC) or Microsoft's Visual Studio compiler (VS)
+* archive unpacker (7zip or similar)
+* GNU Make (4.x)
+* Perl
 
-``tar`` is needed to unpack the EPICS base
+Choice 1: Compiler
+------------------
+You will need a C++ compiler with its supporting C++ standard libraries.
+Two major compilers are supported by EPICS and its build system:
 
-::
+Microsoft's Visual Studio compiler (VS)
+  Probably the most widely used compiler for EPICS on the Windows platform.
+  The "Community Edition" is free to download and use. (You need to have Administrator rights to install it.)
+  Any Visual Studio installation will need the "C++ development" parts for the compiler toolchain to be installed.
 
-    $ pacman -S tar
+  EPICS is using the Make build system. You can use the Visual Studio IDE, but EPICS does not provide any project files or configurations for Visual Studio's own build system.
 
-Install ``perl``
+MinGW (GCC) - Minimalist GNU for Windows
+  A compiler toolchain based on the widely-used GNU compilers that - like the VS compiler - generates native Windows executables.
 
-::
+Both compiler toolchains can create shared libraries (DLLs) and static libraries. On a 64bit system, both can create 64bit output (runs on 64bit systems) and 32bit output (runs on both 32bit and 64bit systems).
 
-    $ pacman -S perl
+When using C++, libraries are not compatible between those two compilers toolchains. When generating a binary (e.g., an IOC), all C++ code that is being linked must have been generated uniformly by either VS or MinGW. (The reason is different name mangling for symbol names: a symbol needed for linking an executable will not be found in a library generated with the other compiler, because its name is different there.)
 
-Install ``make``
+If you need to link against vendor-provided binary C++ libraries, this will most likely determine which compiler you need to use.
 
+Choice 2: Build Environment and Tool Installation
+-------------------------------------------------
 
-::
+MSYS2
+^^^^^
+`MSYS2 <https://www.msys2.org/>`_ (available for Windows 7 and up) is a pretty complete "feels like Linux" environment. It includes a Linux style package manager (`pacman`), which makes it very easy to install the MinGW toolchains (32 and 64 bit) and all other necessary tools. It also offers a bash shell. If you are used to working in a Linux environment, you will like working on MSYS2.
 
-    $ pacman -S make
+MSYS2 can be installed, used and updated (including tools and compilers) without Administrator rights.
 
-Install ``mingw-gcc`` for 64-bit environment
+As up-to-date MinGW/GCC compilers are an integral part of the package, MSYS2 is strongly recommended for using the MinGW compiler toolchains.
 
+The Visual Studio compilers can also be used from the MSYS2 bash. This needs a one-time setup of an intermediate batch script to get the Visual Studio environment settings correctly inherited. The resulting shell can compile using Visual Studio compilers as well as using MinGW, selected by the EPICS_HOST_ARCH environment variable setting.
 
-::
+Chocolatey
+^^^^^^^^^^
+`Chocolatey <https://chocolatey.org/>`_ is a package manager for Windows with a comfortable GUI, making it easy to install and update software packages (including the tools needed for building EPICS). In many cases, Chocolatey packages wrap around the native Windows installers of software.
 
-    $ pacman -S mingw-w64-x86_64-gcc
-    resolving dependencies...
-    looking for conflicting packages...
+Using Chocolatey needs Administrator rights.
 
-    Packages (14) mingw-w64-x86_64-binutils-2.32-3
-                  mingw-w64-x86_64-crt-git-7.0.0.5524.2346384e-1
-                  mingw-w64-x86_64-gcc-libs-9.2.0-2  mingw-w64-x86_64-gmp-6.1.2-1
-                  mingw-w64-x86_64-headers-git-7.0.0.5524.2346384e-1
-                  mingw-w64-x86_64-isl-0.21-1  mingw-w64-x86_64-libiconv-1.16-1
-                  mingw-w64-x86_64-libwinpthread-git-7.0.0.5522.977a9720-1
-                  mingw-w64-x86_64-mpc-1.1.0-1  mingw-w64-x86_64-mpfr-4.0.2-2
-                  mingw-w64-x86_64-windows-default-manifest-6.4-3
-                  mingw-w64-x86_64-winpthreads-git-7.0.0.5522.977a9720-1
-                  mingw-w64-x86_64-zlib-1.2.11-7  mingw-w64-x86_64-gcc-9.2.0-2
+Windows Installers
+^^^^^^^^^^^^^^^^^^
+You can also install the required tools independently, directly using their native Windows installers.
 
-    Total Download Size:    58.53 MiB
-    Total Installed Size:  428.12 MiB
+For Perl, both Strawberry Perl and ActivePerl are known to work. Strawberry Perl is more popular; it includes GNU Make (as `gmake.exe`) and the MinGW/GCC compiler necessary to build the Channel Access Perl module that is part of EPICS Base.
 
-    :: Proceed with installation? [Y/n] y
-    
-Install ``gcc`` 
+For GNU Make, the easiest way is to use the one included in Strawberry Perl. Otherwise, there is a Windows binary provided on the EPICS web site.
 
+Native Windows installers often need Administrator rights.
 
-::
+Choice 3: Static or DLL Build / Deployment
+------------------------------------------
+If you configure the EPICS build system to build your IOCs dynamically (i.e., using DLLs), they need the DLLs they have been linked against to be present on the target system, either in the same directory as the IOC binary or in a directory that is mentioned in the ``%PATH%`` environment variable.
 
-    $ pacman -S gcc
-        
-Check everything is installed properly,
+Depending on how you plan to deploy your IOCs into the production system, it might be easier to use static builds when generating IOCs. The resulting binaries will be considerably larger, but they will run on any Windows system without providing additional EPICS DLLs.
 
-::
+When running many EPICS IOCs on a single target machine, the `shared` aspect of a DLL build will lead to smaller memory usage. The DLL is in memory once and used concurrently by all IOC binaries, while the statically linked binaries each have their own copy of the library in memory.
 
-    $ pacman -Q make perl mingw-w64-x86_64-gcc gcc
-    make 4.2.1-1
-    perl 5.30.0-1
-    mingw-w64-x86_64-gcc 9.2.0-2
-    gcc 9.1.0-2
-    
-Install EPICS
--------------
+*Note:* When using the Visual Studio compilers, compilation uses different flags for building DLLs and building static libraries. You can't generate static and shared libraries in the same build. You can provide both options in your EPICS installation by running both builds in sequence (with ``make clean`` inbetween), so that your applications can decide between static or DLL build. Or you can just provide one option globally for your installation, which all installations will have to use.
 
-::
+Windows Path Names
+------------------
+Make based builds do not work properly when there are space characters or parentheses in the paths that are part of the build (including the path where the `make` application resides and the path of the workspace).
 
-    $ cd $HOME
-    $ wget https://epics-controls.org/download/base/base-7.0.3.1.tar.gz
-    $ tar -xvf base-7.0.3.1.tar.gz
-    $ cd base-7.0.3.1
-    $ export EPICS_HOST_ARCH=windows-x64-mingw
-    $ make
+If you cannot avoid paths with such characters, use the Windows short path (can be displayed with ``dir /x``) for all path components with those characters in any path settings and/or your workspace directory.
 
-There should be lots of warnings, but no error. You can choose any EPICS base to install, procedure remains the same.
-
-EPICS in Msys environment
-------------------------
-
-Run ``softIoc`` and, if everything is ok, you should see an EPICS prompt. You need to provide whole path here, as newly executables is yet not recognised as commands by widnows. That is need to be set by windows "edit the system environment variables". After that it directly works as commands. We will discuss this in details later. Run command as show below. Replace 'user' with actual windows user name folder existing in your windows installation.
-
-::
-
-    $ /home/'user'/base-7.0.3.1/bin/windows-x64-mingw/softIoc
-    epics>
-
-You can exit with ctrl-c or by typing exit.
-
-Voilà.
-
-Now you know that EPICS is installed correctly. If you type 'dbl' you should get empty results right now as there is no process variable or IOC running. Otherwise it should show list of ``Process Variables``.
-
-EPICS in Windows
+Put Tools in the PATH
 ---------------------
+No matter which shell and environment you use, the tools (perl, make) should end up being in the ``%PATH%``, so that they are found when called just by their name.
 
-Exit or minimise Msys2 environment. Open windows command prompt. Here 'user' is windows-user/account folder name.
+Install and Build
+-----------------
+Depending on your set of choices, the instructions for building EPICS Base, building IOC applications and running them are different.
+The following detailed instructions focus on two common sets of choices: using MSYS2 with the MinGW Gnu compilers and using the plain Windows command prompt with the Visual Studio compilers.
 
-::
+Setting the environment for building and running applications has to be done for either set of choices.
 
-    > cd c:\msys64\home\'user'\base-7.0.3.1\bin\windows-x64-mingw
-    > softIoc.exe -x test
-        Starting iocInit
-        ############################################################################
-        ## EPICS R7.0.3.1
-        ## EPICS Base built Apr 16 2020
-        ############################################################################
-        iocRun: All initialization complete
-        epics>
+.. toctree::
+   :maxdepth: 1
 
-Normal EPICS commands like caget, caput will still not work, as windows doesn't recognise them as valid commands. You have to add some paths in windows Environment. We will configure three paths,
-
-* EPICS_BASE
-* EPICS_HOST_ARCH
-* Path
-
-Go to Start Manu, Type "environment" and select ``Edit the system Environment Variables``. 
-
-1. Select ``Advance`` tab, navigate to ``Environment Variables`` button. That should open editable Tables of Path for Windows Environmet. 
-2. In ``User Variable for 'user'`` option, Press NEW
-3. Add EPICS BASE path here. In ``Variable Name``, Put "EPICS_BASE". In ``Variable Path``, put ``C:\msys64\home\'user'\base-7.0.3.1``
-4. One more variable to describe host architecture. In ``Variable Name``, put EPICS_HOST_ARCH. In ``Variable Value``, put "windows-x64-mingw"
-5. Now, Navigate to Variable called ``Path``. Press Edit. 
-6. To add new Path for EPICS commands, Press New again and put ``%EPICS_BASE%\bin\%EPICS_HOST_ARCH%``. Alternatively you can also put whole path as ``C:\msys64\home\'user'\base-7.0.3.1\bin\windows-x64-mingw`` Press ok two times and you are done.
-7. Restart the Machine and check if ``caget`` and ``camonitor`` is being recognised as valid commands.
-
-This should finish setting up EPICS environment in your windows machine. Let's test if architecure is properly set,
-
-in Windows ``command prompt``,
-
-::
-
-    > set EPICS_HOST_ARCH
-    EPICS_HOST_ARCH=windows-x64-mingw
-
-
-in Mysys2 ``bash``
-
-::
-
-    $ echo $EPICS_HOST_ARCH
-    windows-x64-mingw
-
-Observe that output in Windows and Msys environment is "windows-x64-mingw".
-
-
-Simple Check for Process Variables
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Let's test some basic commands and simple Process variable in windows ``command prompt``. prepare a file ``test.db`` in ``C:\msys64\home\'user'\base-7.0.3.1\bin\windows-x64-mingw`` that reads like,
-
-::
-
-    record(ai, "temperature:water")
-    {
-        field(DESC, "Water temperature in the fish tank")
-    }
-
-This file defines a record instance called ``temperature:water``, which is an analog input (ai) record. As you can imagine DESC stays for Description. Now we start softIoc again, but this time using this record database.
-
-::
-
-    > cd cd c:\msys64\home\'user'\base-7.0.3.1\bin\windows-x64-mingw
-    > softIoc -d test.db
-    iocInit()
-    Starting iocInit
-    ############################################################################
-    ## EPICS R7.0.3.1
-    ## EPICS Base built Apr 16 2020
-    ############################################################################
-    iocRun: All initialization complete
-    
-Now, from your EPICS prompt, you can list the available records with the ``dbl`` command and you will see something like
-
-::
-
-    epics> dbl
-    temperature:water
-
-Open one more terminal (call it t2),
-
-::
-
-    camonitor temperature:water
-    
-Open a new terminal (call it t3) and try to change value of PV using ``caput``. you can also readback using ``caget``.
-
-::
-
-    >caput temperature:water 23
-    Old : temperature:water              0
-    New : temperature:water              23
-    
-    >caput temperature:water 24
-    Old : temperature:water              23
-    New : temperature:water              24
-    
-    >caput temperature:water 27
-    Old : temperature:water              24
-    New : temperature:water              27
-    
-    >caput temperature:water 28.1
-    Old : temperature:water              27
-    New : temperature:water              28.1
-
-    >caget temperature:water
-    temperature:water              28.1
-
-Monitor changes in terminal t2,
-
-::
-
-    temperature:water              2020-04-22 17:52:58.752021 23
-    temperature:water              2020-04-22 17:53:03.008201 24
-    temperature:water              2020-04-22 17:53:06.053267 27
-    temperature:water              2020-04-22 17:53:09.003619 28.1
-
-This concludes EPICS installation, Windows Environment variable settings and EPICS basic testing. We can use ``MSYS2`` for building EPICS and IOCs. Files and EPICS executable created from that process can be run in windows environment using ``command prompt``.
-
-Create a demo/test ioc
-----------------------
-
-All though ``softIoc`` can be used with multiple instances with different db files, you may need to create your own ``ioc`` for any number of reasons. We will create one test ioc from existing templates using ``makeBaseApp.pl`` script.
-
-Let's create one IOC, which takes value of 2 process variables and add it and store it in 3rd process variable.
-
-We will need ``MSYS2`` for building ``ioc``. Open ``MSYS2 Mingw 64-bit``. Go to EPICS base and create a new directory ``testioc`` below EPICS base.
-
-::
-
-    $ cd /home/'user'/base-7.0.3.1/
-    $ mkdir testioc
-    $ cd testioc
-    
-from ``testioc`` folder run following,
-
-::
-
-    $ ../bin/windows-x64-mingw/makeBaseApp.pl -t ioc test
-    $ ../bin/windows-x64-mingw/makeBaseApp.pl -i -t ioc test
-    Using target architecture windows-x64-mingw (only one available)
-    The following applications are available:
-        test
-    What application should the IOC(s) boot?
-    The default uses the IOC's name, even if not listed above.
-    Application name?
-    
-Accept the default name and press enter. That should generate a skeleton for your ``testioc``.
-
-::
-
-    $ ls
-    configure  iocBoot  Makefile  testApp
-    
-Now create a ``db`` file which describes PVs for your ``IOC``. Go to ``testApp\db`` and create ``test.db`` file with following record details.
-
-::
-
-    record(ai, "test:pv1")
-    {
-        field(VAL, 49)
-    }
-
-    record(ai, "test:pv2")
-    {
-        field(VAL, 51)
-    }
-    record(calc,"test:add")
-    {
-        field(SCAN,"1 second")
-        field(INPA, "test:pv1")
-        field(INPB, "test:pv2")
-        field("CALC", "A + B")
-    }
-    
-Now open ``Makefile`` and navigate to,
-
-::
-
-    #DB += xxx.db
-
-Remove # and change this to ``test.db`` ,
-
-::
-
-    DB += test.db
-
-Go to back to root folder for IOC ``testioc``. Go to ``iocBoot\ioctest``. Modify ``st.cmd`` file.
-
-Change
-
-::
-
-    #dbLoadRecords("db/xxx.db","user=XXX")
-
-to
-
-::
-
-    dbLoadRecords("db/test.db","user=XXX")
-
-Save all the files and go back to ``MSYS2`` terminal,
-
-go to ioc root folder and run ``make``,
-
-::
-
-    $ cd /base-7.0.3.1/testioc
-    $ export EPICS_HOST_ARCH=windows-x64-mingw
-    $ make
-
-``Note : export EPICS_HOST_ARCH is only required if architecture environment is not properly set. Otherwise it can be ignored.``
-
-This should create all the files required for test ioc,
-
-::
-    
-    $ ls
-    bin  configure  db  dbd  iocBoot  lib  Makefile  testApp
-
-Go to ``\testioc\iocBoot\ioctest`` . Open ``envPaths`` file and change relative paths to full paths
-
-from,
-
-::
-
-    epicsEnvSet("IOC","ioctest")
-    epicsEnvSet("TOP","/home/'user'/base-7.0.3.1/testioc")
-    epicsEnvSet("EPICS_BASE","/home/'user'/base-7.0.3.1/testioc/..")
-
-to
-
-::
-
-    epicsEnvSet("IOC","ioctest")
-    epicsEnvSet("TOP","C:/msys64/home/'user'/base-7.0.3.1/testioc")
-    epicsEnvSet("EPICS_BASE","C:/msys64/home/'user'/base-7.0.3.1")
-
-``Note:Please pay attention to "back slash" here. Use linux style only for this part. It won't work otherwise``
-
-Save file.
-
-go back to windows ``command prompt``,
-
-::
-
-    > cd C:\msys64\home\'user'\base-7.0.3.1\testioc\iocBoot\ioctest
-    
-    > C:\msys64\home\'user'\base-7.0.3.1\testioc\iocBoot\ioctest>..\..\bin\windows-x64-mingw\test.exe st.cmd
-    
-    #!../../bin/windows-x64-mingw/test
-    < envPaths
-    epicsEnvSet("IOC","ioctest")
-    epicsEnvSet("TOP","C:/msys64/home/'user'/base-7.0.3.1/testioc")
-    epicsEnvSet("EPICS_BASE","C:/msys64/home/'user'/base-7.0.3.1")
-    cd "C:/msys64/home/'user'/base-7.0.3.1/testioc"
-    ## Register all support components
-    dbLoadDatabase "dbd/test.dbd"
-    test_registerRecordDeviceDriver pdbbase
-    Warning: IOC is booting with TOP = "C:/msys64/home/'user'/base-7.0.3.1/testioc"
-              but was built with TOP = "/home/'user'/base-7.0.3.1/testioc"
-    ## Load record instances
-    dbLoadRecords("db/test.db","user='user'")
-    cd "C:/msys64/home/'user'/base-7.0.3.1/testioc/iocBoot/ioctest"
-    iocInit
-    Starting iocInit
-    ############################################################################
-    ## EPICS R7.0.3.1
-    ## EPICS Base built Apr 16 2020
-    ############################################################################
-    iocRun: All initialization complete
-    ## Start any sequence programs
-    #seq sncxxx,"user='user'"
-    epics>
-
-Check if database ``test.db`` you created is loaded correctly
-
-::
-
-    epics> dbl
-    test:add
-    test:pv1
-    test:pv2
-
-As you can see 3 process variable is loaded and available. Keep this terminal open and running. Test this process variable using another terminals.
-
-Open other ``commad prompt`` (call it t2) for monitoring  ``test:add``. type "camonitor test:add"
-
-::
-
-    > camonitor test:add
-    > test:add                       2020-04-22 18:47:59.692169 100
-
-Above terminal will monitor variable ``test:add`` continously. If any value change is detected it will be updated in this terminal. Keep this terminal also open to observe the behaviour.
-
-Open one ``command prompt`` (call it t3). using caput modify values of  ``test:pv1`` and ``test:pv2`` as we have done in temperature example above. You shall see changes in terminal t2 accordingly
-  
-Now, You have one IOC ``testioc`` running with database ``test.db`` which has 3 process variable (PV) loaded and connected. If you add more process variable in ``test.db``, you will have to stop ``IOC``, and run that IOC again to load new PV in existing "IOC".
-
-You can also may IOCs like this in parallel with their own database and process variables. Just keep in mind that each PV has to have unique name, otherwise IOCs may crash.
-
+   installation-windows-msys2
+   installation-windows-plain
+   installation-windows-env
