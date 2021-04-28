@@ -13,11 +13,12 @@ Required settings for Path
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 The way you are building your binaries determines which paths have to be added to the Path variable.
 
-* Static builds
+* Static builds (For more Details see `Product Static Build <https://docs.epics-controls.org/en/latest/appdevguide/EPICSBuildFacility.html#product-static-builds>`_.)
 
-  1. Add the EPICS Base binary directory for your target to be able to call the EPICS command line tools without specifying their fully qualified path.
+  1. Add the EPICS Base binary directory (\\base-x.x.x\\bin) for your target to be able to call the EPICS command line tools without specifying their fully qualified path.
   
   This setting is for convenience only and not mandatory. Your IOCs run without it.
+  
   
 * Dynamic (DLL) builds
 
@@ -44,10 +45,10 @@ If you have Administrator rights and want to do it globally, you can also select
 
 1. Select ``Advance`` tab, navigate to ``Environment Variables`` button. That should open editable tables of settings for Windows Environment. 
 2. Select ``User Variable for 'user'`` option, press NEW
-3. Add EPICS BASE path here. In ``Variable Name``, put "EPICS_BASE". For ``Variable Value``, enter the location of your EPICS Base installation, e.g.,  "C:\\msys64\\home\\'user'\\base-R7.0.4.1"
+3. Add EPICS BASE path here. In ``Variable Name``, put "EPICS_BASE". For ``Variable Value``, enter the location of your EPICS Base installation, e.g.,  "c:\\msys64\\home\\\'user'\\base-R7.0.4.1"
 4. Set the host architecture. In ``Variable Name``, put "EPICS_HOST_ARCH". For ``Variable Value``, put "windows-x64-mingw" or "windows-x64" (depending on your selection of compilers).
 5. Navigate to the variable called ``Path``. Press Edit. 
-6. If you are using the MinGW compilers and dynamic (DLL) linking, add the path for the MinGW64 DLLs. Press NEW and enter "C:\\msys64\\mingw64\\bin". Press ok.
+6. If you are using the MinGW compilers and dynamic (DLL) linking, add the path for the MinGW64 DLLs. Press NEW and enter "c:\\msys64\\mingw64\\bin". Press ok.
 7. Add the path for the EPICS commands and DLLs. Press NEW and enter ``%EPICS_BASE%\bin\%EPICS_HOST_ARCH%``. Press ok twice and you are done.
 8. Restart the Machine and check if EPICS commands like ``caget`` and ``camonitor`` are being recognised as valid commands in any location and work.
 
