@@ -15,7 +15,7 @@ The way you are building your binaries determines which paths have to be added t
 
 * Static builds (For more Details see `Product Static Build <https://docs.epics-controls.org/en/latest/appdevguide/EPICSBuildFacility.html#product-static-builds>`_.)
 
-  1. Add the EPICS Base binary directory ("...\base-x.x.x\bin\<target-arch>") for your target to be able to call the EPICS command line tools without specifying their fully qualified path.
+  1. Add the EPICS Base binary directory ("...\\base-x.x.x\\bin\\<target-arch>") for your target to be able to call the EPICS command line tools without specifying their fully qualified path.
   
   This setting is for convenience only and not mandatory. Your IOCs run without it.
 
@@ -51,4 +51,4 @@ If you have Administrator rights and want to do it globally, you can also select
 7. Add the path for the EPICS commands and DLLs. Press NEW and enter ``%EPICS_BASE%\bin\%EPICS_HOST_ARCH%``. Press ok twice and you are done.
 8. Restart the Machine and check if EPICS commands like ``caget`` and ``camonitor`` are being recognised as valid commands in any location and work.
 
-Note that by default the MSYS2 shell does not inherit the parent environment. To change that behavior, you need to start the shell with the argument ``-use-full-path``. To make MSYS2 always inherit the parent environment, uncomment the line rem set MSYS2_PATH_TYPE=inherit in "C:\msys64\msys2_shell.cmd".
+Note that by default the MSYS2 shell does not inherit the parent environment. To change that behavior, you need to start the shell with the argument ``-use-full-path``. To make MSYS2 always inherit the parent environment, uncomment the line rem set MSYS2_PATH_TYPE=inherit in "C:\\msys64\\msys2_shell.cmd".
