@@ -16,7 +16,7 @@ This site has additional packages that are needed::
 
   sudo dnf install epel-release
 
-Enable the powertools repository by running
+Enable the powertools repository by running::
    
   sudo dnf config-manager --set-enabled powertools
 
