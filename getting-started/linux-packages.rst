@@ -85,7 +85,7 @@ Packages required to build areaDetector/ADVimba
 
 ::
 
- sudo dsnf install glibmm24-devel
+ sudo dnf install glibmm24-devel
 
 
 Packages required to build EDM
