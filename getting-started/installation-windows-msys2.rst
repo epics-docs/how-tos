@@ -16,7 +16,7 @@ Again: you have a single installation of MSYS2, these different shells are just 
 Update MSYS2 with following command::
 
     $ pacman -Syu
-  
+
 After this finishes (let it close the bash shell), open bash again and run the same command again to finish the updates. The same procedure is used for regular updates of the MSYS2 installation. An up-to-date system shows::
 
     $ pacman -Syu
@@ -44,7 +44,7 @@ Install the MinGW 32bit and/or MinGW 64bit toolchains::
 
     $ pacman -S mingw-w64-x86_64-toolchain
     $ pacman -S mingw-w64-i686-toolchain
-    
+
 Each complete toolchain needs about 900MB of disk space.
 If you want to cut down the needed disk space (to about 50%), instead of hitting return when asked which packages of the group to install, you can select the minimal set of packages required for compiling EPICS Base: ``binutils``, ``gcc`` and ``gcc-libs``.
 
@@ -68,8 +68,7 @@ You should do this in regular intervals.
 
 Download and build EPICS Base
 -----------------------------
-
-::
+Start the "MSYS MinGW 64-bit" shell and do::
 
     $ cd $HOME
     $ wget https://epics-controls.org/download/base/base-7.0.4.1.tar.gz
@@ -79,6 +78,20 @@ Download and build EPICS Base
     $ make
 
 When using the MinGW 32bit toolchain, the "MSYS MinGW 32-bit" shell must be used and EPICS_HOST ARCH must be set to "win32-x86-mingw".
+
+Note: If you are connecting to your MSYS2 system through ssh, you need to set and allow an environment variable to use the environment presets for the MinGW compilers. In the MSYS2 configuration of the ssh daemon (``/etc/ssh/sshd_config``), add the line
+
+::
+
+    AcceptEnv MSYSTEM
+
+and on your (local) client configuration (``~/.ssh/config``) add the line
+
+::
+
+    SetEnv MSYSTEM=MINGW64
+
+to use the MinGW 64-bit compiler chain (``MINGW32`` to use a 32-bit installation).
 
 During the compilation, there will probably be warnings, but there should be no error. You can choose any EPICS Base version to build, the procedure remains the same.
 
@@ -145,7 +158,7 @@ Create a new directory ``testioc``::
 
     $ mkdir testioc
     $ cd testioc
-    
+
 From that ``testioc`` folder run the following::
 
     $ makeBaseApp.pl -t ioc test
@@ -156,7 +169,7 @@ From that ``testioc`` folder run the following::
     What application should the IOC(s) boot?
     The default uses the IOC's name, even if not listed above.
     Application name?
-    
+
 Accept the default name and press enter. That should generate a skeleton for your ``testioc``.
 
 You can find the full details of the application structure in the "Application Developer's Guide", chapter `Example IOC Application <https://epics.anl.gov/base/R3-16/2-docs/AppDevGuide/GettingStarted.html#x3-60002.2>`_.
@@ -165,7 +178,7 @@ You can find the full details of the application structure in the "Application D
 
     $ ls
     configure  iocBoot  Makefile  testApp
-    
+
 Now create a ``db`` file which describes PVs for your ``IOC``. Go to ``testApp/Db`` and create ``test.db`` file with following record details::
 
     record(ai, "test:pv1")
@@ -183,7 +196,7 @@ Now create a ``db`` file which describes PVs for your ``IOC``. Go to ``testApp/D
         field(INPB, "test:pv2")
         field("CALC", "A + B")
     }
-    
+
 Open ``Makefile`` and navigate to
 
 ::
