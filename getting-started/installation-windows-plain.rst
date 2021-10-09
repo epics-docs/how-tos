@@ -54,7 +54,7 @@ Download and build EPICS Base
 3. Open a Windows command prompt and change into the directory you unpacked EPICS Base into.
 
    **Note:** The complete path of the current directory mustn't contain any spaces or parentheses. If your working directory path does, you can do another cd into the same directory, replacing every path component containing spaces or parentheses with its Windows short path (that can be displayed with ``dir /x``).
-4. Set the EPICS host architecture EPICS_HOST_ARCH (windows-x86 for 64bit builds, win32-x86 for 32bit builds).
+4. Set the EPICS host architecture EPICS_HOST_ARCH (windows-x64 for 64bit builds, win32-x86 for 32bit builds).
 5. Run the ``vcvarsall.bat`` script of your installation (the exact path depends on the type and language of installation) to set the environment for your build.
 6. Run ``make`` (or ``gmake`` if using the version from Strawberry Perl).
 
