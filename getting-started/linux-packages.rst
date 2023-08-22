@@ -20,6 +20,11 @@ Enable the powertools repository by running::
    
   sudo dnf config-manager --set-enabled powertools
 
+Or on CentOS 9 Stream by running::
+
+  sudo dnf config-manager --set-enabled crb
+
+
 Packages required to build EPICS base
 -------------------------------------
 
