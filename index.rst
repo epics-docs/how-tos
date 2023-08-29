@@ -29,6 +29,8 @@ Welcome to the EPICS How-To Pages!
 
    building-epics/how-to-port-epics-to-a-new-os-architecture
    Getting Started with EPICS on RTEMS 4 <https://epics.anl.gov/base/RTEMS/tutorial/tutorial.html>
+   building-epics/configuring-vxworks-6_x
+   building-epics/vxworks6_tornado
 
 
 .. toctree::
