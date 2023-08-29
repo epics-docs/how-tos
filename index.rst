@@ -31,7 +31,7 @@ Welcome to the EPICS How-To Pages!
    Getting Started with EPICS on RTEMS 4 <https://epics.anl.gov/base/RTEMS/tutorial/tutorial.html>
    building-epics/configuring-vxworks-6_x
    building-epics/vxworks6_tornado
-
+   building-epics/posix-threads-priority-scheduling-linux
 
 .. toctree::
    :maxdepth: 1
