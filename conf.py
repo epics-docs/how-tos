@@ -34,7 +34,22 @@ extensions = [
     "sphinx.ext.graphviz",
     "sphinx_copybutton",
     "sphinx.ext.intersphinx",
+    "myst_parser"
 ]
+
+myst_enable_extensions =[
+    "amsmath",
+    "colon_fence",
+    "deflist",
+    "dollarmath",
+    "fieldlist",
+    "html_image",
+    "replacements",
+    "smartquotes",
+    "strikethrough",
+    "tasklist",
+]
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
