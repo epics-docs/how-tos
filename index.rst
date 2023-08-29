@@ -38,6 +38,7 @@ Welcome to the EPICS How-To Pages!
    :caption: Applications
 
    applications/common-database-patterns
+   applications/save-restore-tools
 
 
 .. toctree::
