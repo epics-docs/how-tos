@@ -31,6 +31,7 @@ Welcome to the EPICS How-To Pages!
    Getting Started with EPICS on RTEMS 4 <https://epics.anl.gov/base/RTEMS/tutorial/tutorial.html>
    building-epics/configuring-vxworks-6_x
    building-epics/vxworks6_tornado
+   building-epics/cross-compile-epics-and-a-ioc-to-an-old-x86-linux
 
 
 .. toctree::
