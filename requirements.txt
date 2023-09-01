@@ -1,3 +1,4 @@
 sphinx_copybutton
 sphinx-hoverxref
 myst_parser
+sphinx-reredirects
